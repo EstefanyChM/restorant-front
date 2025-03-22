@@ -1,0 +1,12 @@
+<div>
+  <h3>Gráficos de Pedidos</h3>
+  <p-slider [(ngModel)]="totalRange" [min]="0" [max]="1000" range (onChange)="applyFilter()"></p-slider>
+
+  <div class="chart-container">
+    <p-chart type="bar" [data]="barChartData" [options]="chartOptions"></p-chart>
+  </div>
+
+  <div class="chart-container">
+    <p-chart type="pie" [data]="pieChartData" [options]="chartOptions"></p-chart>
+  </div>
+</div>

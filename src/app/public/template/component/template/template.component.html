@@ -1,0 +1,27 @@
+<!-- Navbar -->
+<app-template-nav></app-template-nav>
+
+<!-- Hero Section -->
+ <div style="margin-top: 70px;"></div>
+<section class="banner-container">
+  <app-template-header *ngIf="mostrarHeader()"></app-template-header>
+</section>
+
+
+
+<!-- Menú Section -->
+<section >
+  <router-outlet></router-outlet>
+</section>
+
+
+<!-- Chat Section -->
+<section id="chat-section" class="py-5">
+  <app-template-chat></app-template-chat>
+</section>
+
+
+<!-- Footer -->
+<footer class="mypc text-white text-center py-4">
+  <app-template-footer></app-template-footer>
+</footer>

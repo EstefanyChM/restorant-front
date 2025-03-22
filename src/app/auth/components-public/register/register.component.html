@@ -1,0 +1,146 @@
+<div class="container">
+  <h2 class="text-center mb-4">Regístrate</h2>
+  <form [formGroup]="myForm">
+      <div class="row">
+          <!-- Fila 1 -->
+          <div class="col-md-6 mb-3">
+            <label for="nombre" class="form-label">Nombre</label>
+            <input formControlName="nombre" type="text" placeholder="Nombre" pInputText class="w-full">
+            <div class="text-red-600 mt-1" *ngIf="myForm.get('nombre')?.invalid && (myForm.get('nombre')?.touched || myForm.get('nombre')?.dirty)">
+              <i class="pi pi-info-circle mr-1"></i>
+              <span *ngIf="myForm.get('nombre')?.errors?.['required']">El nombre es obligatorio.</span>
+              <span *ngIf="myForm.get('nombre')?.errors?.['minlength']">El nombre debe tener al menos 3 caracteres.</span>
+            </div>
+          </div>
+
+          <div class="col-md-6 mb-3">
+              <label for="apellidos" class="form-label">Apellidos</label>
+              <input formControlName="apellidos" type="text" placeholder="Apellidos" pInputText class="w-full">
+              <div class="text-red-600 mt-1" *ngIf="myForm.get('apellidos')?.invalid && (myForm.get('apellidos')?.touched || myForm.get('apellidos')?.dirty)">
+                <i class="pi pi-info-circle mr-1"></i>
+                <span *ngIf="myForm.get('apellidos')?.errors?.['required']">Los apellidos son obligatorios.</span>
+                <span *ngIf="myForm.get('apellidos')?.errors?.['minlength']">Los apellidos deben tener al menos 3 caracteres.</span>
+              </div>
+          </div>
+      </div>
+
+      <!-- Fila Tipo de Documento y Número de Documento -->
+      <div class="row mt-4">
+        <div class="col-md-6 mb-3">
+          <label for="idPersonaTipoDocumento" class="form-label">Tipo de Documento</label>
+          <br>
+          <p-dropdown [options]="tipoDocumentos" formControlName="idPersonaTipoDocumento"
+                      placeholder="Tipo de documento" class="w-full">
+          </p-dropdown>
+          <div class="text-red-600 mt-1" *ngIf="myForm.get('idPersonaTipoDocumento')?.invalid && (myForm.get('idPersonaTipoDocumento')?.touched || myForm.get('idPersonaTipoDocumento')?.dirty)">
+            <i class="pi pi-info-circle mr-1"></i>
+            <span *ngIf="myForm.get('idPersonaTipoDocumento')?.errors?.['required']">
+              El tipo de documento es obligatorio.
+            </span>
+          </div>
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label for="numeroDocumento" class="form-label">Número de Documento</label>
+          <p-inputNumber
+            formControlName="numeroDocumento"
+            placeholder="Número de Documento"
+            class="w-full"
+            mode="decimal"
+            inputId="withoutgrouping"
+            [useGrouping]="false"
+          />
+          <div class="text-red-600 mt-1" *ngIf="myForm.get('numeroDocumento')?.invalid && (myForm.get('numeroDocumento')?.touched || myForm.get('numeroDocumento')?.dirty)">
+            <i class="pi pi-info-circle mr-1"></i>
+            <span *ngIf="myForm.get('numeroDocumento')?.errors?.['required']">El número de documento es obligatorio.</span>
+            <span *ngIf="myForm.get('numeroDocumento')?.errors?.['pattern']">
+              El número de documento debe contener exactamente {{ getDocumentoLength() }} dígitos.
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Fila Teléfono y Email -->
+      <div class="row mt-4">
+        <div class="col-md-6 mb-3">
+          <label for="phoneNumber" class="form-label">Teléfono</label>
+          <p-inputNumber formControlName="phoneNumber" placeholder="Número de teléfono" class="w-full"
+          mode="decimal"
+          inputId="withoutgrouping"
+          [useGrouping]="false" />
+          <div class="text-red-600 mt-1" *ngIf="myForm.get('phoneNumber')?.invalid && (myForm.get('phoneNumber')?.touched || myForm.get('phoneNumber')?.dirty)">
+            <i class="pi pi-info-circle mr-1"></i>
+            <span *ngIf="myForm.get('phoneNumber')?.errors?.['required']">El número de teléfono es obligatorio.</span>
+            <span *ngIf="myForm.get('phoneNumber')?.errors?.['pattern']">
+              El número de documento debe contener exactamente 9 dígitos.
+            </span>
+          </div>
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input formControlName="email" type="text" placeholder="Email address" pInputText class="w-full">
+          <div class="text-red-600 mt-1" *ngIf="myForm.get('email')?.invalid && (myForm.get('email')?.touched || myForm.get('email')?.dirty)">
+            <i class="pi pi-info-circle mr-1"></i>
+            <span *ngIf="myForm.get('email')?.errors?.['required']">El email es obligatorio.</span>
+            <span *ngIf="myForm.get('email')?.errors?.['email']">El formato del email es incorrecto.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Fila Contraseña y Confirmar Contraseña -->
+      <div class="row mt-4">
+        <div class="col-md-6 mb-3">
+          <label for="password" class="form-label">Contraseña</label>
+          <br>
+          <p-password formControlName="password" placeholder="Contraseña" [toggleMask]="true" ></p-password>
+          <div class="text-red-600 mt-1" *ngIf="myForm.get('password')?.invalid && (myForm.get('password')?.touched || myForm.get('password')?.dirty)">
+            <i class="pi pi-info-circle mr-1"></i>
+            <span *ngIf="myForm.get('password')?.errors?.['required']">La contraseña es obligatoria.</span>
+            <span *ngIf="myForm.get('password')?.errors?.['minlength']">La contraseña debe tener al menos 8 caracteres.</span>
+            <span *ngIf="myForm.get('password')?.errors?.['maxlength']">La contraseña no puede tener más de 100 caracteres.</span>
+            <span *ngIf="myForm.get('password')?.errors?.['passwordStrength']">La contraseña debe incluir una letra mayúscula, una minúscula, un número y un carácter especial.</span>
+          </div>
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label for="confirmarPassword" class="form-label">Confirmar Contraseña</label>
+          <br>
+          <p-password formControlName="confirmarPassword" placeholder="Confirmar Contraseña" [toggleMask]="true" ></p-password>
+          <div class="text-red-600 mt-1" *ngIf="myForm.get('confirmarPassword')?.invalid && (myForm.get('confirmarPassword')?.touched || myForm.get('confirmarPassword')?.dirty || myForm.errors?.['mismatch'])">
+            <i class="pi pi-info-circle mr-1"></i>
+            <span *ngIf="myForm.get('confirmarPassword')?.errors?.['required']">La confirmación de la contraseña es obligatoria.</span>
+            <span *ngIf="myForm.errors?.['mismatch']">Las contraseñas no coinciden.</span>
+          </div>
+
+        </div>
+      </div>
+
+
+    <!-- Checkbox de Términos -->
+    <div class="flex align-items-center justify-content-between mt-4">
+      <div class="flex align-items-center">
+        <p-checkbox id="acepted1" [binary]="true" styleClass="mr-2"></p-checkbox>
+        <label for="acepted1">
+          Acepto <a href="#!" class="link">los términos y condiciones</a>
+        </label>
+      </div>
+    </div>
+
+    <div class="mt-4">
+      <button (click)="registrarOnlineUser()" type="submit" pButton label="Registrarme" [disabled]="myForm.invalid" class="w-full p-3"></button>
+    </div>
+  </form>
+
+  <div class="row">
+    <div class="col-12">
+      <hr class="border-secondary">
+      <div class="d-flex flex-column flex-md-row justify-content-md-end gap-2 gap-md-4">
+        <p>Ya Tienes una cuenta?
+          <a (click)="volverAlLogin()" class="cursor-pointer link-secondary text-decoration-none">Ingresa</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+

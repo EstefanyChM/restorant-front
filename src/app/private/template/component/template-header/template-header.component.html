@@ -1,0 +1,65 @@
+<nav class="sb-topnav navbar navbar-expand navbar-dark mypc" style="height: 80px;" >
+    <!-- Navbar Brand-->
+    <a class="navbar-brand ps-3" >
+      <img src="../../../../../assets/ic_riccos_1.png" alt="" style="width: 90%; height: 90%;">
+    </a>
+
+    <!-- Sidebar Toggle-->
+    <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
+            class="fas fa-bars"></i>
+    </button>
+    <ul class="d-flex list-unstyled">
+      <li class="me-3" routerLink="/dashboard/modulo-venta/lista-delivery">
+        <i class="fa-solid fa-truck-fast fa-2xl"
+           [ngClass]="{'animate-icon': deliveryBackLength() > 0}"
+           style="color: #ff7300;"
+           pBadge
+           [value]="deliveryBackLength()"
+           pTooltip="Pedidos Delivery"
+           tooltipPosition="bottom"></i>
+      </li>
+      <li class="me-3" routerLink="/dashboard/modulo-venta/lista-pickup">
+        <i class="fa-solid fa-shop fa-2xl"
+           [ngClass]="{'animate-icon': pickUpBackLength() > 0}"
+           style="color: #ff7300;"
+           pBadge
+           [value]="pickUpBackLength()"
+           pTooltip="Pedidos Recojo en Tienda"
+           tooltipPosition="bottom"></i>
+      </li>
+      <li class="me-3" routerLink="/dashboard/modulo-venta/lista-venta">
+        <i class="fa-solid fa-receipt fa-2xl"
+           [ngClass]="{'animate-icon': enTiendaBackLength() > 0}"
+           style="color: #ff7300;"
+           pBadge
+           [value]="enTiendaBackLength()"
+           pTooltip="Pedidos en Tienda"
+           tooltipPosition="bottom"></i>
+      </li>
+    </ul>
+
+
+    <!-- Navbar Search-->
+    <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+        <div class="input-group">
+            <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..."
+                aria-describedby="btnNavbarSearch" />
+            <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
+        </div>
+    </form>
+    <!-- Navbar-->
+    <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="#!">Configuración</a></li>
+                <li><a class="dropdown-item" href="#!">Actividad Historica</a></li>
+                <li>
+                    <hr class="dropdown-divider" />
+                </li>
+                <li><a class="dropdown-item" href="#!">Cerrar Sesión</a></li>
+            </ul>
+        </li>
+    </ul>
+</nav>

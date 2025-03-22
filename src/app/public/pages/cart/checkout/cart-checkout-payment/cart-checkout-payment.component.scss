@@ -1,0 +1,13 @@
+::ng-deep .custom-input-number input {
+  pointer-events: none;
+  background-color: #ffffff;
+  cursor: not-allowed;
+}
+
+
+//.custom-input-number .p-inputnumber input:focus {
+//  outline: none;  /* Elimina el borde de enfoque */
+//}
+
+
+//p-inputtext p-component p-element p-inputnumber-input p-filled

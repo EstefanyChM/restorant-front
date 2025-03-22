@@ -1,0 +1,70 @@
+<h5>pedido</h5>
+<div *ngIf="pedidoMesaSeleccionada" class="grid p-fluid mt-3">
+
+  <div class="field col-4">
+    <span class="p-float-label">PEDIDO ID</span>
+    <input
+      id="disabled-input"
+      type="text"
+      pInputText
+      [disabled]="true"
+      [(ngModel)]="pedidoMesaSeleccionada.idPedido" />
+  </div>
+
+  <div class="field col-4">
+    <span class="p-float-label">nro mesa</span>
+    <input
+      id="disabled-input"
+      type="text"
+      pInputText
+      [disabled]="true"
+      [(ngModel)]="pedidoMesaSeleccionada.nroMesa" />
+  </div>
+</div>
+<div>
+  <h2>Hacer Pedido</h2>
+    <app-products-details
+
+     #productosDetails>
+    </app-products-details>
+  <p-button (onClick)="crearOEditar()"
+  [label]="pedidoMesaSeleccionada.disponible ? 'Iniciar Pedido' : 'Agregar Pedido'"
+  [styleClass]="pedidoMesaSeleccionada.disponible ? 'p-button-success m-3 mt-auto' : 'p-button-info m-3 mt-auto'"
+  [disabled]="listaRecibida.length === 0"
+  >
+  </p-button>
+</div>
+
+
+<h5>Pedidos ya hechos: </h5>
+
+<p-table [value]="pedidoYaHecho.detallePedidoResp" class="table table-bordered">
+  <ng-template pTemplate="header">
+    <tr>
+      <th>Producto</th>
+      <th>Cantidad</th>
+      <th>Precio Unitario</th>
+      <th>Precio Total</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-detalle>
+    <tr>
+      <td>{{ detalle.nombreProducto }}</td>
+      <td>{{ detalle.cantidad }}</td>
+      <td>S./ {{ detalle.precioUnitario}}</td>
+      <td>S./ {{ detalle.subTotal}}</td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <tr>
+      <td colspan="3" class="text-end"><strong>Total a Pagar:</strong></td>
+      <td><strong>{{ pedidoYaHecho.total}}</strong></td>
+    </tr>
+  </ng-template>
+</p-table>
+
+
+
+<!-- <p-button label="Crear Pedido" (onClick)="crearPedido()"  />
+<p-button label="Finalizar" /> -->
+

@@ -1,0 +1,70 @@
+<div class="m-4">
+  <h4 class="modal-title pull-left">{{ title }}</h4>
+
+  <form [formGroup]="myForm" enctype="multipart/form-data">
+    <div class="row">
+
+      <!-- Campo Nombre -->
+      <div class="col-12 mt-3">
+        <label for="categoria-nombre">Nombre</label>
+        <input formControlName="nombre" type="text" class="form-control" id="categoria-nombre" placeholder="categoría"/>
+
+        <!-- Mensaje de error para el campo nombre -->
+        <div *ngIf="myForm.get('nombre')?.invalid && myForm.get('nombre')?.touched" class="text-danger mt-2">
+          <i class="pi pi-info-circle"></i>
+          <span *ngIf="myForm.get('nombre')?.errors?.['required']">El nombre es obligatorio.</span>
+          <span *ngIf="myForm.get('nombre')?.errors?.['minlength']">El nombre debe tener al menos 3 caracteres.</span>
+        </div>
+      </div>
+
+      <!-- Campo Foto -->
+      <div class="col-12 mt-3">
+        <div class="form-group">
+          <label for="categoria-foto">Foto</label>
+          <img [src]="imageUrl" class="rounded img-fluid card-img-top" *ngIf="imageUrl"/>
+          <input type="file" class="form-control" id="categoria-foto" (change)="onFileSelected($event)"/>
+
+          <!-- Mostrar mensaje de error si existe -->
+          <div *ngIf="errorMessage" class="text-danger mt-2">
+            <i class="pi pi-info-circle"></i>{{ errorMessage }}</div>
+        </div>
+      </div>
+
+      <!-- Campo Descripción -->
+      <div class="col-12 mt-3">
+        <label for="categoria-descripcion">Descripción</label>
+        <textarea formControlName="descripcion" class="form-control" id="categoria-descripcion"></textarea>
+
+        <!-- Mensaje de error para el campo descripción -->
+        <div *ngIf="myForm.get('descripcion')?.invalid && myForm.get('descripcion')?.touched" class="text-danger mt-2">
+          <i class="pi pi-info-circle"></i>
+          <span *ngIf="myForm.get('descripcion')?.errors?.['required']">La descripción es obligatoria.</span>
+          <span *ngIf="myForm.get('descripcion')?.errors?.['minlength']">La descripción debe tener al menos 5 caracteres.</span>
+        </div>
+      </div>
+
+      <!-- Flex container for dropdowns -->
+      <div class="col-12 mt-3 d-flex">
+        <div class="col-6">
+          <label for="disponibilidad">Disponibilidad</label>
+          <br>
+          <p-dropdown formControlName="disponibilidad" [options]="disponibilidadOptions" placeholder="Disponibilidad"></p-dropdown>
+        </div>
+      </div>
+
+      <!-- Flex container for buttons -->
+      <div class="col-12 mt-3 d-flex justify-content-between">
+        <div style="flex: 1; margin-right: 10px;">
+          <p-button id="1" [raised]="true" severity="success" label="GUARDAR" icon="pi pi-check"
+          [disabled]="myForm.invalid || procesoEstado === 'procesando'"
+          (click)="guardar()" class="p-button-primary btn-block btn-sm"></p-button>
+        </div>
+
+        <div style="flex: 1; margin-left: 10px;">
+          <p-button (click)="cerrarModal(true)" [raised]="true" severity="danger" label="CANCELAR" icon="pi pi-times" class="p-button-danger btn-block btn-sm"></p-button>
+        </div>
+      </div>
+
+    </div>
+  </form>
+</div>

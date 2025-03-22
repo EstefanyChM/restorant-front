@@ -1,0 +1,83 @@
+<div class="grid mt-4">
+  <div class="col-12">
+      <div class="card p-4">
+          <h5>CATEGORÍAS</h5>
+          <p-dataView #dv [value]="categorias" filterBy="nombre" layout="grid">
+            <ng-template pTemplate="header">
+              <div class="my-2 flex-column md:flex-row md:justify-content-between gap-2">
+                <form [formGroup]="myFormFilter" class="flex flex-column md:flex-row md:align-items-center gap-2">
+                  <div class="flex flex-column">
+                    <label>Estado</label>
+                    <p-dropdown formControlName="estado" [options]="estadoOptions" placeholder="Estado"></p-dropdown>
+                  </div>
+                  <div class="flex flex-column mx-4">
+                    <label>Disponibilidad</label>
+                    <p-dropdown formControlName="disponibilidad"  [options]="disponibilidadOptions" placeholder="Disponibilidad"></p-dropdown>
+                  </div>
+                  <div class="flex flex-column">
+                    <label>Nombre</label>
+                    <span class="p-input-icon-left">
+                      <i class="pi pi-search"></i>
+                      <input formControlName="nombre" type="search" pInputText placeholder="Buscar por nombre" />
+                    </span>
+                  </div>
+                  <div class="flex flex-column">
+                    <label>GG</label>
+                    <p-button  class=" mx-4" (click)="crearCategoria(modalEdit)" icon="pi pi-plus" styleClass="p-button-rounded p-button-success"></p-button>
+
+                  </div>
+                </form>
+              </div>
+            </ng-template>
+
+              <ng-template let-categoria pTemplate="gridItem">
+                  <div class="grid grid-nogutter">
+                      <div class="col-12 md:col-4" *ngFor="let categoria of categorias">
+                          <div class="card m-3 p-4 border-1 surface-border">
+                              <div class="flex flex-wrap gap-2 align-items-center justify-content-between mb-2">
+                                <span [class]="'categoria-badge status-' + (categoria.disponibilidadDescripcion === 'Disponible' ? 'disponible' : 'no-disponible')">
+                                  {{ categoria.disponibilidadDescripcion }}
+                                </span>
+                                  <div class="flex align-items-center">
+                                      <span class="font-semibold"> Cantidad de productos: {{ categoria.cantidadDeProductos}}</span>
+                                  </div>
+                              </div>
+                              <div class="flex flex-column align-items-center text-center mb-3">
+                                  <img [src]="categoria.urlImagen" [alt]="categoria.nombre" class="w-9 shadow-2 my-3 mx-0" />
+                                  <div class="text-2xl font-bold">{{ categoria.nombre }}</div>
+                                  <div class="mb-3">{{ categoria.descripcion }}</div>
+                              </div>
+                              <div class="flex align-items-center justify-content-between">
+                                  <span class="text-2xl font-semibold">S./{{ categoria.precioMaximo }} - S./{{ categoria.precioMinimo }}</span>
+
+                                  <p-button *ngIf="categoria.estado" id="1" (click)="editarCategoria(modalEdit,categoria)" icon="pi pi-pen-to-square" severity="warning"></p-button>
+                                  <p-button
+                                    [icon]="categoria.estado ? 'pi pi-trash' : 'pi pi-sync'"
+                                    [severity]="categoria.estado ? 'danger' : 'info'"
+                                    (onClick)="eliminadoLogico(categoria)">
+                                  </p-button>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </ng-template>
+          </p-dataView>
+      </div>
+  </div>
+</div>
+
+
+
+<ng-template #modalEdit>
+
+    <app-menu-categoria-register
+      [title]="titleModal"
+      [categoria]="categoriaSelected"
+      [accion]="accionModal"
+      (closeModalEmmit)="getCloseModalEmmit($event)"
+    ></app-menu-categoria-register>
+
+</ng-template>
+
+
+

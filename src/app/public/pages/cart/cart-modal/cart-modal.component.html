@@ -1,0 +1,55 @@
+<div *ngIf="carrito.length === 0" class="alert alert-info" role="alert">
+  El carrito está vacío.
+</div>
+
+<p-card *ngFor="let item of carrito; let i = index" class="my-4">
+  <ng-template pTemplate="header">
+      <img alt="Card" class="w-full" [src]="item.urlImagen" />
+  </ng-template>
+
+  <ng-template pTemplate="title">{{ item.nombre }}</ng-template>
+  <ng-template pTemplate="subtitle">{{ item.categoria }}</ng-template>
+  <p>{{ item.descripcion }}</p>
+
+  <ng-template pTemplate="footer">
+      <div class="row">
+          <p id="1" class="fw-bold col-5">S./ {{ (item.precio || 0) * (item.cantidad || 1) | number: '1.2-2' }}</p>
+          <!-- <input [(ngModel)]="item.cantidad" type="number" class="mr-4 col-3 form-control form-control-lg text-center" value="1"> -->
+          <p-inputNumber
+          [(ngModel)]="item.cantidad"
+          type="number"
+          class="mr-4 col-3 text-center custom-input-number"
+          value="1"
+          [showButtons]="true"
+          inputId="minmax-buttons"
+          [step]="1"
+          [min]="1" [max]="item.stockDelProducto"
+          [inputStyle]="{ width: '3rem'}"/>
+          <p-button class="col-2" (click)="quitar(i)" icon="pi pi-trash">
+          </p-button>
+      </div>
+  </ng-template>
+
+
+
+</p-card>
+
+<div class="card-body mt-4">
+  <div class="d-flex justify-content-between mb-4">
+      <strong>Subtotal</strong>
+      <strong id="2">S./ {{ subtotal | number: '1.2-2' }}</strong>
+  </div>
+</div>
+
+<div class="row mt-4 d-flex align-items-center">
+  <div class="col-sm-6 order-md-2 text-right">
+      <a *ngIf="carrito.length > 0" (click)="realizarCompra()" class="btn btn-primary mb-4 btn-lg pl-5 pr-5">
+        Realizar Compra
+      </a>
+
+  </div>
+  <div class="col-sm-6 mb-3 mb-m-1 order-md-1 text-md-left">
+      <a href="#"  (click)="cerrarModal()">
+          <i class="fas fa-arrow-left mr-2"></i>Seguir comprando</a>
+  </div>
+</div>

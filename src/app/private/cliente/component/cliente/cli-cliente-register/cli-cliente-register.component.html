@@ -1,0 +1,239 @@
+<div class="card-body">
+  <h4 class="card-title mb-4">Consultar Persona</h4>
+  <form [formGroup]="myFormConsult" class="form-sample">
+      <div class="card border border-primary p-4 pt-5">
+        <div class="row justify-content-between ">
+          <div class="col-md-3">
+            <p-floatLabel>
+              <p-dropdown [options]="tipoDocumentos" formControlName="idPersonaTipoDocumento"
+                          placeholder="Tipo de documento" class="w-full">
+              </p-dropdown>
+              <label for="idPersonaTipoDocumento" class="form-label">Tipo de Documento</label>
+            </p-floatLabel>
+            <div class="text-red-600 mt-1" *ngIf="myFormConsult.get('idPersonaTipoDocumento')?.invalid && (myFormConsult.get('idPersonaTipoDocumento')?.touched || myFormConsult.get('idPersonaTipoDocumento')?.dirty)">
+              <i class="pi pi-info-circle mr-1"></i>
+              <span *ngIf="myFormConsult.get('idPersonaTipoDocumento')?.errors?.['required']">
+                El tipo de documento es obligatorio.
+              </span>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <p-floatLabel>
+              <p-inputNumber
+                formControlName="numeroDocumento"
+                class="w-full"
+                mode="decimal"
+                inputId="withoutgrouping"
+                [useGrouping]="false"
+              />
+              <label for="numeroDocumento" class="form-label">Número de Documento</label>
+            </p-floatLabel>
+            <div class="text-red-600 mt-1" *ngIf="myFormConsult.get('numeroDocumento')?.invalid && (myFormConsult.get('numeroDocumento')?.touched || myFormConsult.get('numeroDocumento')?.dirty)">
+              <i class="pi pi-info-circle mr-1"></i>
+              <span *ngIf="myFormConsult.get('numeroDocumento')?.errors?.['required']">El número de documento es obligatorio.</span>
+              <span *ngIf="myFormConsult.get('numeroDocumento')?.errors?.['pattern']">
+                El número de documento debe contener exactamente {{ getDocumentoLength() }} dígitos.
+              </span>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <button [disabled]="myFormConsult.invalid" (click)="consultarPersona($event)" class="btn btn-primary btn-block">Consultar</button>
+          </div>
+        </div>
+      </div>
+  </form>
+
+  <!-- ACÁ SE DEBEN COMPLETAR LOS DATOS -->
+  <form [formGroup]="myForm" *ngIf="selectedDocumento != 2"  id = paraDNI class="mt-4">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="form-group row">
+          <div class="col-sm-9">
+              <input formControlName="idPersonaTipoDocumento"
+                      id="disabled-input"
+                      type="text"
+                      pInputText
+                      [disabled]="true" />
+          </div>
+          <div *ngIf="myForm.get('idPersonaTipoDocumento')?.errors && myForm.touched">
+            <small class="text-danger" *ngIf="myForm.get('idPersonaTipoDocumento')?.hasError('required')">Campo requerido</small>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group row">
+          <div class="col-sm-9">
+            <input formControlName="numeroDocumento"
+                      id="disabled-input"
+                      type="text"
+                      pInputText
+                      [disabled]="true" />
+          </div>
+          <div *ngIf="myForm.get('numeroDocumento')?.errors && myForm.touched">
+            <small class="text-danger" *ngIf="myForm.get('numeroDocumento')?.hasError('required')"> Campo requerido
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="form-group row">
+          <label class="col-sm-3 col-form-label">Nombre</label>
+          <div class="col-sm-9">
+            <input formControlName="nombre" type="text" class="form-control" placeholder="Nombre">
+          </div>
+          <div *ngIf="myForm.get('nombre')?.errors &&  myForm.touched ">
+            <small class="text-danger" *ngIf="myForm.get('nombre')?.hasError('required')"> Campo requerido
+            </small>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group row">
+          <label class="col-sm-3 col-form-label">Apellidos</label>
+          <div class="col-sm-9">
+            <input formControlName="apellidos" type="text" class="form-control" placeholder="Apellidos">
+          </div>
+          <div *ngIf="myForm.get('apellidos')?.errors && myForm.touched">
+            <small class="text-danger" *ngIf="myForm.get('apellidos')?.hasError('required')">Campo requerido</small>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="form-group row">
+          <label class="col-sm-3 col-form-label">Celular</label>
+          <div class="col-sm-9">
+            <input formControlName="celular" type="text" class="form-control" placeholder="Celular">
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group row">
+          <label class="col-sm-3 col-form-label">Email</label>
+          <div class="col-sm-9">
+            <input formControlName="email" type="email" class="form-control" placeholder="Correo Electrónico">
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group row">
+          <label class="col-sm-3 col-form-label">Fecha de nac.</label>
+          <div class="col-sm-9">
+            <input formControlName="fechaNacimiento" type="date" class="form-control" placeholder="Fecha de Nacimiento">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group row">
+          <label class="col-sm-3 col-form-label">Dirección</label>
+          <div class="col-sm-9">
+            <input formControlName="direccion" type="text" class="form-control" placeholder="Dirección">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <button [disabled]="myForm.invalid" (click)="guardar($event)" class="btn btn-primary btn-block">Guardar</button>
+    </div>
+  </form>
+
+  <form [formGroup]="myFormLegalCustomer" *ngIf="selectedDocumento == 2" id = 'paraRUC'>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="form-group row">
+          <div class="col-sm-9">
+              <input formControlName="idPersonaTipoDocumento"
+                      id="disabled-input"
+                      type="text"
+                      pInputText
+                      [disabled]="true" />
+          </div>
+          <div *ngIf="myForm.get('idPersonaTipoDocumento')?.errors && myForm.touched">
+            <small class="text-danger" *ngIf="myForm.get('idPersonaTipoDocumento')?.hasError('required')">Campo requerido</small>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group row">
+          <div class="col-sm-9">
+            <input formControlName="ruc"
+                      id="disabled-input"
+                      type="text"
+                      pInputText/>
+          </div>
+          <div *ngIf="myForm.get('ruc')?.errors && myForm.touched">
+            <small class="text-danger" *ngIf="myForm.get('ruc')?.hasError('required')"> Campo requerido
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="form-group row">
+          <label class="col-sm-3 col-form-label">Razón Social</label>
+          <div class="col-sm-9">
+            <input formControlName="razonSocial" type="text" class="form-control" placeholder="Nombre">
+          </div>
+          <div *ngIf="myForm.get('razonSocial')?.errors &&  myForm.touched ">
+            <small class="text-danger" *ngIf="myForm.get('razonSocial')?.hasError('required')"> Campo requerido
+            </small>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group row">
+          <label class="col-sm-3 col-form-label">Nombre Comercial</label>
+          <div class="col-sm-9">
+            <input formControlName="nombreComercial" type="text" class="form-control" placeholder="Nombre Comercial">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="form-group row">
+          <label class="col-sm-3 col-form-label">Tipo</label>
+          <div class="col-sm-9">
+            <input formControlName="tipo" type="text" class="form-control" placeholder="tipo">
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group row">
+          <label class="col-sm-3 col-form-label">Estado</label>
+          <div class="col-sm-9">
+            <input formControlName="estado" type="estado" class="form-control" placeholder="estado">
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group row">
+          <label class="col-sm-3 col-form-label">Condición</label>
+          <div class="col-sm-9">
+            <input formControlName="condicion" type="date" class="form-control" placeholder="condicion">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group row">
+          <label class="col-sm-3 col-form-label">Dirección</label>
+          <div class="col-sm-9">
+            <input formControlName="direccion" type="text" class="form-control" placeholder="Dirección">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <!-- <button (click)="guardar($event)" class="btn btn-primary btn-block">Guardar</button> -->
+      <button [disabled]="myFormLegalCustomer.invalid" (click)="guardar($event)" class="btn btn-primary btn-block">Guardar</button>
+    </div>
+  </form>
+</div>

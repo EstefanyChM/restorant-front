@@ -1,0 +1,124 @@
+<div class="container-fluid px-4 mt-5">
+  <div class="card bg-light mb-3">
+      <div class="card-header text-center">
+          <h1 class="mt-4">TABLITA BUZON</h1>
+      </div>
+      <div class="card-body">
+
+          <form [formGroup]="myFormFilter">
+
+              <div class="card bg-light mb-3">
+                  <div class="card-header">BUSQUEDA</div>
+                  <div class="card-body">
+                      <div class="row">
+                          <div class="col-3">
+                              <div class="form-group">
+                                  <label for="">Id</label>
+                                  <input formControlName="id" type="text" class="form-control">
+                              </div>
+                          </div>
+                          <div class="col-3">
+                              <div class="form-group">
+                                  <label for="">Asunto</label>
+                                  <select formControlName="idAsunto" class="form-select">
+                                    <option value="">TODO</option>
+                                    <option value="1">Eventos y Catering</option>
+                                    <option value="2">Comentarios y Sugerencias</option>
+                                    <option value="3">Reclamaciones y Quejas</option>
+                                    <option value="4">Consultas Generales</option>
+                                    <option value="5">Colaboraciones y Proveedores</option>
+                                    <option value="6">Promociones y Ofertas Especiales</option>
+
+                                </select>
+                              </div>
+                          </div>
+                          <div class="col-3">
+                              <div class="form-group">
+                                  <label for="">Estado</label>
+                                  <select formControlName="estado" class="form-select">
+                                      <option value="">TODO</option>
+                                      <option value="1">Nuevo</option>
+                                      <option value="2">En Proceso</option>
+                                      <option value="3">Respondido</option>
+                                      <option value="4">Cerrado</option>
+                                  </select>
+                              </div>
+                          </div>
+
+                          <div class="col-3">
+                              <div class="form-group">
+                                  <br>
+                                  <button (click)="filtrar()" class="btn btn-primary btn-sm">
+                                      <i class="fas fa-search"></i>
+                                  </button>
+                                  <button class="btn btn-danger btn-sm">
+                                      <i class="fas fa-broom"></i>
+                                  </button>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </form>
+
+          <table class="table table-bordered table-striped">
+              <thead>
+                  <tr>
+                      <th>#</th>
+                      <th>ID</th>
+                      <th>Asunto</th>
+                      <th>Email</th>
+                      <th>Mensaje</th>
+                      <th>Fecha</th>
+                      <th>Estado</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr *ngFor="let mensaje of buzones; let i = index">
+                      <td>{{ i + 1 }}</td>
+                      <td> {{mensaje.id}} </td>
+                      <td> {{mensaje.asuntoNombre}} </td>
+                      <td> {{mensaje.remiteEmail}} </td>
+                      <td> {{mensaje.mensaje}} </td>
+                      <td> {{mensaje.fecha}} </td>
+                      <td> {{mensaje.mensajeEstado}} </td>
+                      <td>
+                        <button (click)="responder(modalEdit,mensaje)" class="btn btn-primary btn-sm">
+                          <i class="fa-solid fa-paper-plane"></i>
+                        </button>
+                        <button (click)="eliminarRegistro(mensaje.id)" class="btn btn-danger btn-sm">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                  </tr>
+              </tbody>
+          </table>
+
+          <div class="row">
+              <div class="col-xs-8 col-8">
+                  <pagination (pageChanged)="changePage($event)" [totalItems]="totalItems"
+                      [itemsPerPage]="itemsPerPage" [previousText]="'Anterior'" [nextText]="'Siguiente'">
+                  </pagination>
+              </div>
+
+              <div class="col-xs-4 col-4">
+                  <select (change)="changeItemsPerPage()" [(ngModel)]="itemsPerPage" class="form-select">
+                      <option value="3">3</option>
+                      <option value="5">5</option>
+                      <option value="10">10</option>
+                      <option value="15">15</option>
+                      <option value="30">30</option>
+                      <option value="50">50</option>
+                      <option value="100">100</option>
+                  </select>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+<ng-template #modalEdit>
+  <app-colec-buzon-reply [title]="titleModal" [buzon]="buzonSelected" [accion]="accionModal"
+      (closeModalEmmit)="getCloseModalEmmit($event)"></app-colec-buzon-reply>
+</ng-template>
+

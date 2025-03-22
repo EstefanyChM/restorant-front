@@ -1,0 +1,103 @@
+<div class="grid">
+  <div class="col-12">
+    <div class="card">
+      <h5>Gestión de Suscriptores</h5>
+
+      <div class="flex align-items-center mx-2">
+        <button pButton label="Limpiar" class="p-button-outlined mb-2" icon="pi pi-filter-slash" (click)="borrarFiltros()"></button>
+      </div>
+
+      <div class="my-2 flex-column md:flex-row md:justify-content-between gap-2">
+        <form [formGroup]="myFormFilter" class="flex flex-column md:flex-row md:align-items-center gap-2">
+            <div class="flex flex-column mx-2">
+                <label for="estado">Estado</label>
+                <p-dropdown formControlName="estado" [showClear]="true" [options]="estadoOptions" placeholder="Estado" id="estado"></p-dropdown>
+            </div>
+            <div class="flex flex-column mx-2">
+                <label for="email">Email</label>
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input formControlName="email" type="search" pInputText placeholder="Buscar por email" id="email" />
+                </span>
+            </div>
+            <div class="flex flex-column mx-2">
+                <label for="fechaSuscripcion">Fecha de Suscripción</label>
+                <p-calendar formControlName="fechaSuscripcion" dateFormat="dd/mm/yy" placeholder="Fecha de Suscripción" showIcon="true" id="fechaSuscripcion"></p-calendar>
+            </div>
+            <div class="flex flex-column mx-2">
+                <label for="fechaDesuscripcion">Fecha de Desuscripción</label>
+                <p-calendar formControlName="fechaDesuscripcion" dateFormat="dd/mm/yy" placeholder="Fecha de Desuscripción" showIcon="true" id="fechaDesuscripcion"></p-calendar>
+            </div>
+        </form>
+      </div>
+
+      <p-table
+        #dt1
+        [value]="suscriptores"
+        dataKey="id"
+        [rows]="itemsPerPage"
+        [rowHover]="true"
+        styleClass="p-datatable-gridlines"
+        [paginator]="false"
+        [globalFilterFields]="['email', 'estado']"
+        responsiveLayout="scroll"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th>#</th>
+            <th>Email</th>
+            <th>Estado</th>
+            <th>Fecha de Suscripción</th>
+            <th>Fecha de Desuscripción</th>
+            <th></th>
+          </tr>
+        </ng-template>
+
+        <ng-template let-suscriptor let-i="rowIndex" pTemplate="body">
+          <tr>
+            <td>{{ i + 1 }}</td>
+            <td>{{ suscriptor.email }}</td>
+            <td>
+              <span [class]="suscriptor.estado ? 'status-activo' : 'status-inactivo'">
+                {{ suscriptor.estado ? 'Activo' : 'Inactivo' }}
+              </span>
+            </td>
+            <td>{{ suscriptor.fechaSuscripcion | date:'dd/MM/yyyy' }}</td>
+            <td>{{ suscriptor.fechaDesuscripcion ? (suscriptor.fechaDesuscripcion | date:'dd/MM/yyyy') : 'N/A' }}</td>
+            <td>
+              <p-button icon="pi pi-pen-to-square" (click)="editarSuscriptor(modalEdit,suscriptor)" class="p-button-warning"></p-button>
+              <p-button icon="pi pi-trash" (click)="eliminadoLogico(suscriptor)" class="p-button-danger"></p-button>
+            </td>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="5">No se encontraron suscriptores</td>
+          </tr>
+        </ng-template>
+      </p-table>
+
+      <!-- Paginación -->
+      <div class="grid">
+        <div class="col-8">
+          <p-paginator
+            [rows]="itemsPerPage"
+            [totalRecords]="totalItems"
+            [rowsPerPageOptions]="[8, 10, 15, 30, 50, 100]"
+            (onPageChange)="changePage($event)"
+          ></p-paginator>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #modalEdit>
+  <!-- <app-suscripcion-register
+    [title]="titleModal"
+    [suscriptor]="suscriptorSelected"
+    [accion]="accionModal"
+    (closeModalEmmit)="getCloseModalEmmit($event)"
+  ></app-suscripcion-register> -->
+</ng-template>

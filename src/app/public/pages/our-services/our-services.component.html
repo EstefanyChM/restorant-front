@@ -1,0 +1,21 @@
+
+<section class="chefs section " >
+  <!-- Section Title -->
+  <div class="container section-title">
+    <p><span>Nuestros</span> <span class="description-title">Servicios<br></span></p>
+  </div><!-- End Section Title -->
+  <div class="container">
+    <div class="row gy-4">
+      @for (servicio of nuestrosServiciosObtenidos; track servicio) {
+      <div class="col-lg-4 d-flex p-4 ">
+        <div class="team-member mysc">
+          <div class="member-info">
+            <h4>{{servicio.name}}</h4>
+            <p>{{ servicio.description }}</p>
+          </div>
+        </div>
+      </div>
+    }
+    </div>
+  </div>
+</section>

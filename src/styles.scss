@@ -1,0 +1,49 @@
+:root {
+  --primary-color: rgb(50, 30, 0);
+  --secundary-color: rgb(255, 200, 100);
+  --tertiary-color: rgb(255, 100, 50);
+
+  /* Tonos más claros */
+  --primary-light: rgb(110, 85, 55); /* Mezcla del color primario con blanco */
+  --secundary-light: rgb(255, 220, 150); /* Mezcla del color secundario con blanco */
+  --tertiary-light: rgb(255, 160, 110); /* Mezcla del color terciario con blanco */
+
+  --super-color:  rgb(255, 245, 233)
+}
+
+.mi-color {
+  background-color: var(--super-color) !important;
+}
+
+.mypc {
+  background-color: var(--primary-color) !important;
+}
+
+.mysc {
+  background-color: var(--secundary-color) !important;
+}
+
+.mytc {
+  background-color: var(--tertiary-color) !important;
+}
+
+/*************************/
+.mypc-text {
+  color: var(--primary-color) !important; /* Color de texto primario */
+}
+
+.mysc-text {
+  color: var(--secundary-color) !important; /* Color de texto secundario */
+}
+
+.mytc-text {
+  color: var(--tertiary-color) !important; /* Color de texto terciario */
+}
+
+.p-tag {
+  background: transparent !important;
+  border: none !important;
+  color: inherit !important;
+}
+@import "assets/demo/styles/badges.scss";
+

@@ -1,0 +1,152 @@
+<div class="m-4">
+  <h4 class="modal-title pull-left text-uppercase">{{ title }}</h4>
+
+  <form [formGroup]="myForm" enctype="multipart/form-data">
+    <div class="row">
+
+      <!-- Campo Nombre -->
+      <div class="col-6 mt-3">
+        <label for="producto-nombre">Nombre</label>
+        <input formControlName="nombre" type="text" class="form-control" id="producto-nombre" placeholder="producto"/>
+        <div *ngIf="myForm.get('nombre')?.invalid && myForm.get('nombre')?.touched" class="text-danger mt-2">
+          <i class="pi pi-info-circle"></i>
+          <span *ngIf="myForm.get('nombre')?.errors?.['required']">El nombre es obligatorio.</span>
+          <span *ngIf="myForm.get('nombre')?.errors?.['minlength']">El nombre debe tener al menos 3 caracteres.</span>
+        </div>
+      </div>
+
+      <!-- Campo Categoría -->
+      <div class="col-6 mt-3">
+        <label for="categoria">Categoría</label>
+        <br>
+        <p-dropdown
+          formControlName="categoria"
+          [options]="categorias"
+          placeholder="Selecciona una categoría"
+          optionLabel="label"
+          optionValue="value">
+        </p-dropdown>
+        <div *ngIf="myForm.get('categoria')?.invalid && myForm.get('categoria')?.touched" class="text-danger mt-2">
+          <i class="pi pi-info-circle"></i>
+          <span *ngIf="myForm.get('categoria')?.errors?.['required']">La categoría es obligatoria.</span>
+        </div>
+      </div>
+
+
+
+
+
+      <div class="row mt-3 d-flex flex-wrap">
+        <!-- Campo Stock -->
+        <div class="col-md-4 ">
+          <label for="producto-stock">Stock</label>
+          <br>
+          <p-inputNumber formControlName="stock" inputId="stock"
+            [min]="1"
+            buttonLayout="horizontal"
+            [showButtons]="true"
+            decrementButtonClass="p-button-danger"
+            incrementButtonClass="p-button-success"
+            incrementButtonIcon="pi pi-plus"
+            decrementButtonIcon="pi pi-minus"
+            [inputStyle]="{ width: '3rem' }">
+          </p-inputNumber>
+        </div>
+
+        <!-- Campo Precio -->
+        <div class="col-md-4">
+          <label for="producto-precio">Precio</label>
+          <br>
+          <p-inputNumber formControlName="precio"
+            [showButtons]="true"
+            buttonLayout="horizontal"
+            [min]="0.01"
+            [step]="0.25"
+            decrementButtonClass="p-button-danger"
+            incrementButtonClass="p-button-success"
+            incrementButtonIcon="pi pi-plus"
+            decrementButtonIcon="pi pi-minus"
+            mode="currency"
+            currency="PEN"
+            currencyDisplay="symbol"
+            locale="es-PE"
+            [inputStyle]="{ width: '5rem' }">
+          </p-inputNumber>
+        </div>
+
+        <!-- Campo Margen Ganancia -->
+        <div class="col-md-4 ">
+          <label for="producto-margenGanancia">Margen Ganancia</label>
+          <br>
+          <p-inputNumber formControlName="margenGanancia"
+            [showButtons]="true"
+            buttonLayout="horizontal"
+            [min]="0"
+            [max]="100"
+            [step]="1"
+            decrementButtonClass="p-button-danger"
+            incrementButtonClass="p-button-success"
+            incrementButtonIcon="pi pi-plus"
+            decrementButtonIcon="pi pi-minus"
+            mode="decimal"
+            [suffix]="'%'"
+            [inputStyle]="{ width: '5rem' }">
+          </p-inputNumber>
+        </div>
+      </div>
+
+
+
+
+
+
+
+
+
+
+      <!-- Campo Descripción -->
+      <div class="col-12 mt-3">
+        <label for="producto-descripcion">Descripción</label>
+        <textarea formControlName="descripcion" class="form-control" id="producto-descripcion"></textarea>
+        <div *ngIf="myForm.get('descripcion')?.invalid && myForm.get('descripcion')?.touched" class="text-danger mt-2">
+          <i class="pi pi-info-circle"></i>
+          <span *ngIf="myForm.get('descripcion')?.errors?.['required']">La descripción es obligatoria.</span>
+          <span *ngIf="myForm.get('descripcion')?.errors?.['minlength']">La descripción debe tener al menos 5 caracteres.</span>
+        </div>
+      </div>
+
+      <!-- Campo Disponibilidad -->
+      <div class="col-12 mt-3">
+        <label for="disponibilidad">Disponibilidad</label>
+        <p-dropdown formControlName="disponibilidad" [options]="disponibilidadOptions" placeholder="Selecciona la disponibilidad"></p-dropdown>
+        <div *ngIf="myForm.get('disponibilidad')?.invalid && myForm.get('disponibilidad')?.touched" class="text-danger mt-2">
+          <i class="pi pi-info-circle"></i>
+          <span *ngIf="myForm.get('disponibilidad')?.errors?.['required']">La disponibilidad es obligatoria.</span>
+        </div>
+      </div>
+
+      <!-- Campo Foto -->
+      <div class="col-12 mt-3">
+        <label for="producto-foto">Foto</label>
+        <img [src]="imageUrl" class="rounded img-fluid card-img-top" *ngIf="imageUrl"/>
+        <input type="file" class="form-control" id="producto-foto" (change)="onFileSelected($event)"/>
+        <div *ngIf="errorMessage" class="text-danger mt-2">
+          <i class="pi pi-info-circle"></i>{{ errorMessage }}
+        </div>
+      </div>
+
+      <!-- Botones -->
+      <div class="col-12 mt-3 d-flex justify-content-between">
+        <div style="flex: 1; margin-right: 10px;">
+          <p-button [raised]="true" severity="success" label="GUARDAR" icon="pi pi-check"
+          [disabled]="myForm.invalid || procesoEstado === 'procesando'" (click)="guardar()"
+          class="p-button-primary btn-block btn-sm"></p-button>
+        </div>
+        <div style="flex: 1; margin-left: 10px;">
+          <p-button (click)="cerrarModal(true)" [raised]="true" severity="danger" label="CANCELAR" icon="pi pi-times" class="p-button-danger btn-block btn-sm"></p-button>
+        </div>
+      </div>
+
+    </div>
+  </form>
+</div>

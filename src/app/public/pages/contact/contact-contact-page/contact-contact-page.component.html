@@ -1,0 +1,92 @@
+<section id="contacto" class="py-5">
+  <div class="container">
+    <h2 class="text-center mb-4">Contáctanos</h2>
+
+    <form [formGroup]="myForm">
+      <div class="grid p-fluid mt-3">
+        <div class="field col-12 md:col-4">
+          <span class="p-float-label">
+            <input
+              type="text"
+              id="remiteNombre"
+              pInputText
+              formControlName="remiteNombre"
+              required
+              placeholder=" "
+            />
+            <label for="remiteNombre">Nombre</label>
+          </span>
+        </div>
+
+        <div class="field col-12 md:col-4">
+          <span class="p-float-label">
+            <input
+              type="email"
+              id="remiteEmail"
+              pInputText
+              formControlName="remiteEmail"
+              required
+              placeholder=" "
+            />
+            <label for="remiteEmail">Correo electrónico</label>
+          </span>
+        </div>
+
+        <div class="field col-12 md:col-4">
+          <span class="p-float-label">
+            <p-dropdown
+                inputId="dropdown"
+                [autoDisplayFirst]="false"
+                [options]="asuntOptions"
+                optionLabel="label"
+                formControlName="idAsunto"
+                [optionValue]="'value'"
+            ></p-dropdown>
+            <label for="dropdown">Asunto</label>
+          </span>
+        </div>
+
+        <div class="field col-12">
+          <span class="p-float-label">
+            <textarea
+              id="mensaje"
+              pInputTextarea
+              formControlName="mensaje"
+              required
+              placeholder=" "
+            ></textarea>
+            <label for="mensaje">Mensaje</label>
+          </span>
+        </div>
+
+        <div class="field col-12">
+          <button
+            type="submit"
+            pButton
+            label="Enviar"
+            (click)="enviar()"
+            [disabled]="myForm.invalid"
+            class="btn btn-primary"
+          ></button>
+        </div>
+
+      </div>
+    </form>
+
+
+
+    <div class="grid p-fluid mt-4">
+      <div class="col-12">
+        <iframe
+          class="position-relative rounded w-100 h-100"
+          src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d975.497805674658!2d-75.2087836!3d-12.0624279!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x910e9649952dc541%3A0x54fa1bd76dd9a2d!2s107%2C%20Prologaci%C3%B3n%20San%20Carlos%20205%2C%20Huancayo!5e0!3m2!1ses!2spe!4v1694487854321!5m2!1ses!2spe"
+          frameborder="0"
+          style="min-height: 350px; border: 0;"
+          allowfullscreen=""
+          aria-hidden="false"
+          tabindex="0"
+        ></iframe>
+      </div>
+    </div>
+  </div>
+</section>

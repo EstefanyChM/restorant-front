@@ -1,0 +1,84 @@
+<div class="surface-ground px-4 py-8 ">
+  <div class="text-900 font-bold text-6xl mb-4 text-center">Pedidos En Tienda Finalizados</div>
+
+  <div class="grid">
+    <div class=" col-4 lg:col-2" *ngFor="let enTienda of enTiendaBack">
+      <div class="card shadow-2 p-3 h-full flex flex-column">
+        <div class="text-900 font-medium text-xl mb-2">Id Mesa: {{ enTienda.idMesa }}</div>
+        <div class="text-900 font-medium text-xl mb-2">Id Pedido:{{ enTienda.idPedido }}</div>
+        <hr class="my-3 mx-0 border-top-1 border-none surface-border" />
+        <div class="flex align-items-center">
+          <span class="ml-2 font-medium text-600">Monto: </span>
+          <span class="font-bold text-2xl text-900"> S./ {{enTienda.total}} </span>
+        </div>
+        <div>
+          <p-button (click)="hacerVenta(enTienda)" label="HACER VENTA" styleClass="p-button-danger m-3 mt-auto"></p-button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-- /********************************************************/ -->
+
+<p-dialog header="Realizar Venta" [(visible)]="displayDialog" [modal]="true" [closable]="true">
+
+  <p-stepper>
+    <p-stepperPanel header="Registrar Cliente">
+        <ng-template pTemplate="content" let-nextCallback="nextCallback" let-index="index">
+            <div class="flex flex-column">
+                <div class="p-3 border-2 border-dashed surface-border border-round surface-ground flex-auto flex justify-content-center align-items-center font-medium">
+                  <app-cli-cliente-register
+                  (idClienteEmitido)="recibirIdCliente($event)"
+                  (tipoComprobante)="recibirTipoComprobante($event)"
+                  (clienteRegistrado)="habilitarNext()"
+                  [verOrigen]="origen"
+                  >
+                  </app-cli-cliente-register>
+                </div>
+            </div>
+            <div class="flex pt-4 justify-content-end">
+                <p-button id="b1"
+                    label="Siguiente"
+                    icon="pi pi-arrow-right"
+                    iconPos="right" severity="success"
+                    [disabled]="!clienteRegistrado"
+                    (click)="nextCallback.emit()" />
+            </div>
+        </ng-template>
+    </p-stepperPanel>
+
+    <p-stepperPanel header="Tipo de Pago" >
+        <ng-template  pTemplate="content" let-prevCallback="prevCallback" let-nextCallback="nextCallback" let-index="index">
+            <div class="flex flex-column">
+                <div class="border-2 border-dashed surface-border border-round surface-ground flex-auto flex justify-content-center align-items-center font-medium ">
+                  <app-venta-tipo-pago
+                    [montoAPagar]="enTiendaSeleccionada.total"
+                    (metodoPago)="recibirMetodoPago($event)"
+                    (pagoExitoso)="habilitarFinalizarVenta($event)">
+                  </app-venta-tipo-pago>
+                </div>
+            </div>
+            <div class="flex pt-4 justify-content-between">
+                <p-button
+                    label="Back"
+                    icon="pi pi-arrow-left"
+                    severity="success"
+                    (onClick)="prevCallback.emit()" />
+                <p-button id="b2"
+                    label="Finalizar"
+                    icon="pi pi-check"
+                    iconPos="right"
+                    severity="danger"
+                    [disabled]="!ventaPagada"
+                    (onClick)="finalizarVenta()" />
+            </div>
+        </ng-template>
+    </p-stepperPanel>
+</p-stepper>
+
+
+</p-dialog>
+
+
+
+

@@ -1,0 +1,148 @@
+<div class="container-fluid px-4 mt-5">
+  <div class="card bg-light mb-3">
+    <div class="card-header text-center">
+      <h1 class="mt-4">TABLITA producto</h1>
+    </div>
+    <div class="card-body">
+      <!-- BÚSQUEDA INICIO -->
+       <form [formGroup]="myFormFilter">
+        <div class="card bg-light mb-3">
+          <div class="card-header">BÚSQUEDA</div>
+          <div class="card-body">
+            <div class="row">
+
+              <div class="col-1">
+                <div class="form-group">
+                  <label for="">ID</label>
+                  <input
+                    formControlName="id"
+                    type="text"
+                    class="form-control"
+                  />
+                </div>
+              </div>
+
+              <div class="col-3">
+                <div class="form-group">
+                  <label for="">Nombre</label>
+                  <input
+                    formControlName="nombre"
+                    type="text"
+                    class="form-control"
+                  />
+                </div>
+              </div>
+
+              <div class="col-3">
+                <div class="form-group">
+                  <label for="">Apellidos</label>
+                  <input
+                    formControlName="apellidos"
+                    type="text"
+                    class="form-control"
+                  />
+                </div>
+              </div>
+
+              <div class="col-3"></div>
+                <div class="form-group">
+                  <label for="">Número de documento</label>
+                  <input
+                    formControlName="numeroDocumento"
+                    type="text"
+                    class="form-control"
+                  />
+                </div>
+              </div>
+
+              <div class="col-3">
+                <div class="form-group">
+                  <label for="">Estado</label>
+                  <select formControlName="estado" class="form-select">
+                    <option value="true">Activo</option>
+                    <option value="false">Inactivo</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-2">
+                <div class="form-group">
+                  <br />
+                  <button (click)="filtrar()" class="btn btn-primary btn-sm">
+                    <i class="fas fa-search"></i>
+                  </button>
+
+                  <button (click)="clearBox()" class="btn btn-danger btn-sm">
+                    <i class="fas fa-broom"></i>
+                  </button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+      </form>
+      <!-- BÚSQUEDA FIN -->
+
+
+
+      <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th></th>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Descripcion</th>
+                <th>Precio</th>
+                <th>Categoria</th>
+                <th>Imagen</th>
+                <th>Disponibilidad</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr *ngFor="let cliente of clientes; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td> {{cliente.nombre}} </td>
+                <td> {{cliente.apellidos}} </td>
+                <td> {{cliente.id}} </td>
+                <td> {{cliente.fechaNacimiento}} </td>
+                <td> {{cliente.email}} </td>
+            </tr>
+        </tbody>
+    </table>
+
+
+      <div class="row">
+        <div class="col-xs-8 col-8">
+          <pagination
+            (pageChanged)="changePage($event)"
+            [totalItems]="totalItems"
+            [itemsPerPage]="itemsPerPage"
+            [previousText]="'Anterior'"
+            [nextText]="'Siguiente'"
+          >
+          </pagination>
+        </div>
+
+        <div class="col-xs-4 col-4">
+          <select
+            (change)="changeItemsPerPage()"
+            [(ngModel)]="itemsPerPage"
+            class="form-select"
+          >
+            <option value="3">3</option>
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+            <option value="30">30</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+          </select>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+</div>

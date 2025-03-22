@@ -1,0 +1,473 @@
+<div class="row">
+  <!-- Columna 1 -->
+  <div id="1" class="col-6 ml-8">
+    <p>Tipo de comprobante</p>
+      <!-- Radio Buttons para seleccionar el tipo de documento -->
+      <div class="">
+        <p-radioButton  class="m-4"
+          name="documentType"
+          value="boleta"
+          label="Boleta"
+          [(ngModel)]="selectedDocumentType"
+          (onClick)="selectedDocumentType = 'boleta'">
+        </p-radioButton>
+        <p-radioButton  class="m-4"
+          name="documentType"
+          value="factura"
+          label="Factura"
+          [(ngModel)]="selectedDocumentType"
+          (onClick)="selectedDocumentType = 'factura'">
+        </p-radioButton>
+      </div>
+
+      <!-- Formulario para Boleta -->
+      <div *ngIf="selectedDocumentType === 'boleta'">
+        <form [formGroup]="comBoletaForm">
+          <div class="row">
+            <!-- Nombre -->
+            <div class="col-md-6 mb-3">
+              <label for="nombre" class="form-label">Nombre</label>
+              <input
+                id="nombre"
+                type="text"
+                pInputText
+                class="form-control"
+                formControlName="nombre"
+                placeholder="Nombre" />
+              <div *ngIf="comBoletaForm.get('nombre')?.invalid && comBoletaForm.get('nombre')?.touched" class="text-danger">
+                Nombre es obligatorio
+              </div>
+            </div>
+
+            <!-- Apellidos -->
+            <div class="col-md-6 mb-3">
+              <label for="apellidos" class="form-label">Apellidos</label>
+              <input
+                id="apellidos"
+                type="text"
+                pInputText
+                class="form-control"
+                formControlName="apellidos"
+                placeholder="Apellidos" />
+              <div *ngIf="comBoletaForm.get('apellidos')?.invalid && comBoletaForm.get('apellidos')?.touched" class="text-danger">
+                Apellidos son obligatorios
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <!-- Tipo de Documento -->
+            <div class="col-md-6 mb-3">
+              <label for="idPersonaTipoDocumento" class="form-label">Tipo de documento</label>
+              <br>
+              <p-dropdown
+                id="tipoDocumento"
+                [options]="tiposDocumento"
+                formControlName="idPersonaTipoDocumento"
+                placeholder="Seleccione tipo de documento">
+              </p-dropdown>
+              <div *ngIf="comBoletaForm.get('idPersonaTipoDocumento')?.invalid && comBoletaForm.get('idPersonaTipoDocumento')?.touched" class="text-danger">
+                Seleccione un tipo de documento
+              </div>
+            </div>
+
+            <!-- Número de Documento -->
+            <div class="col-md-6 mb-3">
+              <label for="numeroDocumento" class="form-label">N° de Documento</label>
+              <input
+                id="numeroDocumento"
+                type="text"
+                pInputText
+                class="form-control"
+                formControlName="numeroDocumento"
+                placeholder="N° de Documento" />
+              <div *ngIf="comBoletaForm.get('numeroDocumento')?.invalid && comBoletaForm.get('numeroDocumento')?.touched" class="text-danger">
+                Número de documento debe tener 8 dígitos
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <!-- Correo -->
+            <div class="col-md-6 mb-3">
+              <label for="correo" class="form-label">Correo</label>
+              <input
+                id="correo"
+                type="email"
+                pInputText
+                class="form-control"
+                formControlName="correo"
+                placeholder="Correo" />
+              <div *ngIf="comBoletaForm.get('correo')?.invalid && comBoletaForm.get('correo')?.touched" class="text-danger">
+                Ingrese un correo válido
+              </div>
+            </div>
+
+            <!-- Celular -->
+            <div class="col-md-6 mb-3">
+              <label for="celular" class="form-label">Celular</label>
+              <input
+                id="celular"
+                type="text"
+                pInputText
+                class="form-control"
+                formControlName="celular"
+                placeholder="Celular" />
+              <div *ngIf="comBoletaForm.get('celular')?.invalid && comBoletaForm.get('celular')?.touched" class="text-danger">
+                Ingrese un número de celular válido (9 dígitos)
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <!-- Formulario para Factura -->
+      <div  *ngIf="selectedDocumentType === 'factura'">
+        <form [formGroup]="comFacturaForm">
+          <div class="row">
+            <!-- Nombre -->
+            <div class="col-md-6 mb-3">
+              <label for="nombre">Nombre</label>
+              <input
+                id="nombre"
+                type="text"
+                class="form-control"
+                formControlName="nombre"
+                pInputText
+                [ngClass]="{'is-invalid': comFacturaForm.get('nombre')?.invalid && comFacturaForm.get('nombre')?.touched}"
+              />
+              <div *ngIf="comFacturaForm.get('nombre')?.invalid && comFacturaForm.get('nombre')?.touched" class="text-danger">
+                Nombre es obligatorio.
+              </div>
+            </div>
+
+            <!-- Apellidos -->
+            <div class="col-md-6 mb-3">
+              <label for="apellidos">Apellidos</label>
+              <input
+                id="apellidos"
+                type="text"
+                class="form-control"
+                formControlName="apellidos"
+                pInputText
+                [ngClass]="{'is-invalid': comFacturaForm.get('apellidos')?.invalid && comFacturaForm.get('apellidos')?.touched}"
+              />
+              <div *ngIf="comFacturaForm.get('apellidos')?.invalid && comFacturaForm.get('apellidos')?.touched" class="text-danger">
+                Apellidos son obligatorios.
+              </div>
+            </div>
+
+            <!-- RUC -->
+            <div class="col-md-6 mb-3">
+              <label for="ruc">RUC</label>
+              <input
+                id="ruc"
+                type="text"
+                class="form-control"
+                formControlName="ruc"
+                pInputText
+                [ngClass]="{'is-invalid': comFacturaForm.get('ruc')?.invalid && comFacturaForm.get('ruc')?.touched}"
+              />
+              <div *ngIf="comFacturaForm.get('ruc')?.invalid && comFacturaForm.get('ruc')?.touched" class="text-danger">
+                RUC es obligatorio y debe tener 11 dígitos.
+              </div>
+            </div>
+
+            <!-- Razón social -->
+            <div class="col-md-6 mb-3">
+              <label for="razonSocial">Razón social</label>
+              <input
+                id="razonSocial"
+                type="text"
+                class="form-control"
+                formControlName="razonSocial"
+                pInputText
+                [ngClass]="{'is-invalid': comFacturaForm.get('razonSocial')?.invalid && comFacturaForm.get('razonSocial')?.touched}"
+              />
+              <div *ngIf="comFacturaForm.get('razonSocial')?.invalid && comFacturaForm.get('razonSocial')?.touched" class="text-danger">
+                Razón social es obligatoria.
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <!-- Correo -->
+            <div class="col-md-6 mb-3">
+              <label for="correo">Correo</label>
+              <input
+                id="correo"
+                type="email"
+                class="form-control"
+                formControlName="correo"
+                pInputText
+                [ngClass]="{'is-invalid': comFacturaForm.get('correo')?.invalid && comFacturaForm.get('correo')?.touched}"
+              />
+              <div *ngIf="comFacturaForm.get('correo')?.invalid && comFacturaForm.get('correo')?.touched" class="text-danger">
+                Correo debe ser válido.
+              </div>
+            </div>
+
+            <!-- Celular -->
+            <div class="col-md-6 mb-3">
+              <label for="celular">Celular</label>
+              <input
+                id="celular"
+                type="text"
+                class="form-control"
+                formControlName="celular"
+                pInputText
+                [ngClass]="{'is-invalid': comFacturaForm.get('celular')?.invalid && comFacturaForm.get('celular')?.touched}"
+              />
+              <div *ngIf="comFacturaForm.get('celular')?.invalid && comFacturaForm.get('celular')?.touched" class="text-danger">
+                Celular debe tener 9 dígitos.
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+  </div>
+
+  <p-divider class="col-1" layout="vertical"></p-divider>
+
+  <!-- Columna 2 -->
+  <div id="2" class="col-2">
+    <div>
+      <p>Servicio</p>
+
+        <!-- Radio Buttons para seleccionar el tipo de entrega -->
+        <div class="d-flex align-items-center mb-3">
+          <p-radioButton  class="m-4"
+            name="deliveryType"
+            value="delivery"
+            label="Delivery"
+            [(ngModel)]="selectedServiceType"
+            (onClick)="selectedServiceType = 'delivery'">
+          </p-radioButton>
+          <p-radioButton
+            name="deliveryType"
+            value="pickup"
+            label="Recojo en tienda"
+            [(ngModel)]="selectedServiceType"
+            (onClick)="selectedServiceType = 'pickup'">
+          </p-radioButton>
+        </div>
+
+        <!-- Formulario para Delivery -->
+        <div *ngIf="selectedServiceType === 'delivery'">
+          <div class="container">
+            <!-- Campo de Dirección -->
+            <div class="mb-3">
+              <label for="direccion" class="form-label fw-bold">Ingresa tu dirección</label>
+              <div class="input-group">
+                <input type="text"
+                       pInputText
+                       id="direccion"
+                       placeholder="Ingresa tu dirección"
+                       class="form-control"
+                       [(ngModel)]="serDeliveryForm.controls['address'].value"
+                       (ngModelChange)="serDeliveryForm.controls['address'].setValue($event)"
+                       required />
+                <span class="input-group-text">
+                  <i class="pi pi-map-marker"></i>
+                </span>
+              </div>
+              <!-- Mensaje de error para dirección -->
+              <div *ngIf="serDeliveryForm.get('address')?.invalid && serDeliveryForm.get('address')?. touched" class="text-danger">
+                La dirección es obligatoria y debe tener al menos 5 caracteres.
+              </div>
+            </div>
+
+            <!-- Campo de Referencia -->
+            <div class="mb-3">
+              <label for="referencia" class="form-label fw-bold">Ingresa una referencia</label>
+              <input type="text"
+                     pInputText
+                     id="referencia"
+                     placeholder="Ingresar referencia"
+                     class="form-control"
+                     [(ngModel)]="serDeliveryForm.controls['reference'].value"
+                     (ngModelChange)="serDeliveryForm.controls['reference'].setValue($event)" />
+              <!-- Mensaje de error para referencia -->
+              <div *ngIf="serDeliveryForm.get('reference')?.invalid && serDeliveryForm.get('reference')?.       touched" class="text-danger">
+                Si ingresas una referencia, debe tener al menos 3 caracteres.
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+
+<!-- Formulario para Recojo en Tienda -->
+<div *ngIf="selectedServiceType === 'pickup'">
+  <div class="container">
+    <!-- Selección de Tienda -->
+    <div class="mb-3">
+      <label for="tienda" class="form-label fw-bold">Selecciona una tienda:</label>
+      <br>
+      <p-dropdown [options]="tiendasOptions" placeholder="Selecciona una tienda"
+                  inputId="tienda" class="w-100"
+                  [(ngModel)]="selectedStore" required>
+      </p-dropdown>
+      <div *ngIf="!selectedStore && selectedServiceType === 'pickup'" class="text-danger">
+        Debes seleccionar una tienda.
+      </div>
+    </div>
+
+    <!-- Selección de Horario -->
+    <div class="mb-3">
+      <label for="horario" class="form-label fw-bold">Selecciona un horario:</label>
+      <br>
+      <p-calendar [iconDisplay]="'input'" [showIcon]="true"
+            [timeOnly]="true" hourFormat="12" inputId="templatedisplay"
+
+            [(ngModel)]="serRecojoTiendaForm.controls['PickupTime'].value"
+                       (ngModelChange)="serRecojoTiendaForm.controls['PickupTime'].setValue($event)"
+
+            >
+</p-calendar>
+
+      <div *ngIf="!pickupTime && selectedServiceType === 'pickup'" class="text-danger">
+        Debes seleccionar un horario.
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+    </div>
+  </div>
+</div>
+<!-- --------------------------------- -->
+  <p-divider layout="horizontal"></p-divider>
+<!-- --------------------------------- -->
+
+
+  <div id="3" class="container py-5">
+    <h1 class="mb-5">Carrito</h1>
+    <div class="row">
+        <div class="col-lg-8">
+            <!-- Cart Items -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div *ngIf="carrito.length === 0" class="alert alert-info" role="alert">
+                        El carrito está vacío.
+                    </div>
+
+                    <div *ngFor="let item of carrito; let i = index" class="row cart-item mb-3">
+                        <div class="col-md-3">
+                            <img [src]="item.urlImagen" alt="Product 1" class="img-fluid rounded">
+                        </div>
+                        <div class="col-md-5">
+                            <h5 class="card-title">{{ item.nombre }}</h5>
+                            <p class="text-muted">Categoria: {{ item.categoria }}</p>
+                            <p class="text-muted">{{ item.descripcion }}</p>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="col-lg-12">
+                                <h6>Cantidad:</h6>
+                                <p-inputNumber
+                                class="custom-input-number"
+
+                                [(ngModel)]="item.cantidad"
+                                value="1"
+                                  [showButtons]="true"
+                                  buttonLayout="horizontal"
+                                  [step]="1"
+                                  [min]="1" [max]="item.stockDelProducto"
+                                  [inputStyle]="{ width: '3rem' }"
+                                  />
+                            </div>
+                        </div>
+                        <div class="col-md-2 text-end">
+                            <p class="fw-bold">S/. {{ (item.precio || 0) * (item.cantidad || 1) | number: '1.2-2' }}</p>
+                            <p-button icon="pi pi-trash" (click)="eliminarItem(i)" />
+                        </div>
+                    </div>
+
+                    <hr>
+                </div>
+            </div>
+
+            <!-- Continue Shopping Button -->
+            <div class="text-start mb-4">
+                <a href="#" class="btn btn-outline-primary">
+                    <i class="bi bi-arrow-left me-2"></i>Seguir comprando
+                </a>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <!-- Cart Summary -->
+
+            <div class="card cart-summary">
+                <div class="card-body">
+                    <h5 class="card-title mb-4">Resumen del Pedido</h5>
+                    <div class="d-flex justify-content-between mb-3">
+                        <span>Subtotal</span>
+                        <span>S./ {{ subTotal | number: '1.2-2' }}</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-3">
+                        <span>Delivery</span>
+                        <span>S./ {{costoDelivery | number: '1.2-2'}}</span>
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-content-between mb-4">
+                        <strong>Total</strong>
+                        <strong>S./ {{ subTotal + costoDelivery | number: '1.2-2'}}</strong>
+                    </div>
+                    <div>
+
+                      <div class="p-mt-5 p-mb-5">
+                        <div class="p-grid p-justify-center">
+                          <!-- Sección de Método de Pago -->
+                          <div class="p-col-12 p-md-6">
+                            <p class="p-text-bold">Método de Pago</p>
+
+                            <!-- Radio Buttons para seleccionar el método de pago -->
+                            <div class="p-field-radiobutton my-4">
+                              <!-- <p-radioButton name="paymentMethod" value="paypal" label="Paypal" [(ngModel)]="selectedPaymentMethod" (onClick)="selectedPaymentMethod = 'paypal'"></p-radioButton> -->
+                              <p-radioButton name="paymentMethod" value="mercadoPago" label="MercadoPago" [(ngModel)]="selectedPaymentMethod" (onClick)="selectedPaymentMethod = 'mercadoPago'"></p-radioButton>
+                              <!-- <p-radioButton name="paymentMethod" value="creditCard" label="Tarjeta de Crédito" [(ngModel)]="selectedPaymentMethod" (onClick)="selectedPaymentMethod = 'creditCard'"></p-radioButton> -->
+                            </div>
+
+
+
+                            <!-- Formulario para MercadoPago -->
+                            <div *ngIf="selectedPaymentMethod === 'mercadoPago'">
+                              <div class="p-field">
+                                <p-button
+                                  label="Pagar con Mercado Pago"
+                                  icon="pi pi-money-bill"
+                                  (click)="iniciarPago()"
+                                  [disabled]="!(carrito.length !== 0 &&
+                                              (comBoletaForm.valid ||comFacturaForm.valid) &&
+                                              (serDeliveryForm.valid ||serRecojoTiendaForm.valid))"
+
+                                  styleClass="btn btn-primary d-flex align-items-center justify-content-center">
+                                </p-button>
+
+                                <small class="text-muted d-block mt-2">
+                                  <i class="pi pi-info-circle"></i> Mercado Pago permite pagar sin necesidad de crear una cuenta.
+                                </small>
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+

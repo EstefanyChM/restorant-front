@@ -1,0 +1,140 @@
+<div class="grid">
+  <div class="col-12">
+    <div class="card">
+      <!-- Slider para seleccionar categoria o promo -->
+
+      <div class="container">
+        <div class="nav nav-tabs d-flex justify-content-center flex-column flex-md-row" role="tablist">
+          <p-tabView [(activeIndex)]="activeIndex">
+
+            <!-- Pestañas dinámicas -->
+            <p-tabPanel *ngFor="let tab of categoriasBack" [header]="tab.nombre">
+              <ng-template pTemplate="header">
+                <div class="nav-item">
+                  <div class="nav-link active show mysc">
+                    <h4 class="mypc-text" (click)="onTabClick(tab)">{{ tab.nombre }}</h4>
+                  </div>
+                </div>
+              </ng-template>
+            </p-tabPanel>
+
+            <!-- Pestaña estática -->
+            <!-- <p-tabPanel header="Promociones">
+              <ng-template pTemplate="header">
+                <div class="nav-item">
+                  <div class="nav-link active show mysc">
+                    <h4 class="mypc-text" (click)="traerPromociones()" >Promociones</h4>
+                  </div>
+                </div>
+              </ng-template>
+              <p>Contenido de la pestaña estática</p>
+            </p-tabPanel> -->
+
+          </p-tabView>
+        </div>
+      </div>
+
+      <p-messages></p-messages>
+
+      <p-dataView  #dv filterBy="nombre" [value]="filteredProductos" [sortField]="sortField" [sortOrder]="sortOrder" layout="grid">
+        <!-- para filtrar -->
+        <ng-template pTemplate="header">
+          <div class=" mx-8 flex flex-column md:flex-row md:justify-content-between gap-2">
+
+            <div class="ml-2">
+              <label for="">Filtrar Por Precio</label>
+
+              <p-slider
+                [(ngModel)]="rangeValues"
+                [range]="true"
+                [min]="minPrice"
+                [max]="maxPrice"
+                (onChange)="filterByPriceRange()"
+                [style]="{'width': '300px'}">
+              </p-slider>
+
+              <div class="flex align-items-center">
+                <span class="mr-2">S./ {{rangeValues[0]}}</span> -
+                <span class="ml-2">S./ {{rangeValues[1]}}</span>
+              </div>
+            </div>
+
+            <p-dropdown [options]="sortOptions" placeholder="Ordenar por precio" (onChange)="onSortChange($event)">
+            </p-dropdown>
+
+            <span class="p-input-icon-left">
+              <i class="pi pi-search"></i>
+              <input type="search" pInputText placeholder="Buscar por Nombre" (input)="onFilter(dv, $event)">
+            </span>
+          </div>
+        </ng-template>
+
+        <ng-template let-productos pTemplate="gridItem">
+          <div class="grid">
+            <div class="col-12 md:col-3" *ngFor="let product of productos">
+
+              <p-card [header]="product.nombre" class="card m-5 border-1 surface-border text-center">
+
+                <ng-template pTemplate="header">
+
+
+                  <div class="flex flex-column align-items-center text-center" style="position: relative;">
+
+                    <div >
+                      <span *ngIf="!product.disponibilidad" [class]="'producto-badge status-' + (product.disponibilidad ? 'disponible' : 'no-disponible')"
+                            style="position: absolute; top: 10px; left: 10px; padding: 5px;">
+                        {{ product.disponibilidadDescripcion }}
+                      </span>
+                      <span *ngIf="product.stockAuxiliar ==0" class="producto-badge producto-sinStock"
+                            style="position: absolute; top: 10px; left: 10px; padding: 5px;">
+                         Sin Stock
+                      </span>
+                    </div>
+
+
+
+                    <img [src]="product.urlImagen" [alt]="product.nombre" class="shadow-2" />
+                  </div>
+                </ng-template>
+
+                <ng-template pTemplate="body">
+                  <div class="row justify-content-center align-items-center">
+                    <div class="col-8">
+                      <span>{{ product.descripcion }}</span>
+                    </div>
+                    <div class="col-4">
+                      <span class="text-2xl font-semibold">S./ {{ product.precio }}</span>
+                    </div>
+                  </div>
+                  <small>stock: {{product.stockAuxiliar}}</small>
+                </ng-template>
+
+                <ng-template pTemplate="footer">
+                  <div class="d-flex justify-content-center">
+                    <p-button (click)="ordenarproducto(modalEdit, product)" label="Ordenar" icon="pi pi-shopping-cart" [disabled]="!product.disponibilidad || product.stock === 0"></p-button>
+                  </div>
+                </ng-template>
+              </p-card>
+            </div>
+          </div>
+        </ng-template>
+
+      </p-dataView>
+    </div>
+  </div>
+</div>
+
+
+<!-- *********************************** -->
+
+
+<!-- Otro modal para ordenar -->
+<ng-template #modalEdit>
+    <app-menu-menu-order class = "modal-body"
+        [title]="titleModal"
+        [producto]="productoSelected"
+        (closeModalEmmit)="getCloseModalEmmit($event)"
+        (notify)="showMessage($event.severity, $event.summary, $event.detail)">
+    </app-menu-menu-order>
+</ng-template>
+

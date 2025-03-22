@@ -1,0 +1,123 @@
+<h5  class="p-4 pl-0">Crear Promoción</h5>
+
+<div class="card p-3 mb-3">
+  <h5 class="mb-3">Crear Promoción con IA</h5>
+  <div class="d-flex gap-3">
+    <p-button label="Combo" icon="pi pi-microchip-ai" (onClick)="crearPromoConIA()"></p-button>
+    <p-button label="Por Categoría" icon="pi pi-microchip-ai" (onClick)="crearPromoConIAPorIdCat()"></p-button>
+  </div>
+</div>
+
+
+
+<app-products-details
+(listaActualEmitida)="recibirLista($event)"
+
+(porcentajeDescuentoTotalEmitido) = "recibirPorcentajeDescuentoTotal($event)"
+(descuentoTotalEmitido) = "recibirDescuentoTotal($event)"
+
+#productosDetails>
+</app-products-details>
+
+<div class=" card mt-4 p-4">
+
+  <h5>Descripción de la promoción</h5>
+
+
+  <form [formGroup]="myForm">
+    <span id="5" class="p-float-label m-4 mt-6">
+      <input formControlName="nombre">
+      <label>Nombre</label>
+    </span>
+    <span class="text-danger" *ngIf="myForm.get('nombre')?.invalid && myForm.get('nombre')?.touched">
+      <small *ngIf="myForm.get('nombre')?.hasError('required')">El nombre es obligatorio.</small>
+      <small *ngIf="myForm.get('nombre')?.hasError('minlength')">Debe tener al menos 3 caracteres.</small>
+    </span>
+
+    <div class="grid">
+      <!-- Columna 1 -->
+      <div class="col d-flex flex-column align-items-center justify-content-center">
+        <span id="1" class="p-float-label m-4 mt-6">
+          <p-calendar formControlName="fechaInicio" inputId="calendar1"></p-calendar>
+          <label for="calendar1">Fecha Inicio</label>
+        </span>
+        <span class="text-danger" *ngIf="myForm.get('fechaInicio')?.invalid && myForm.get('fechaInicio')?.touched">
+          <small *ngIf="myForm.get('fechaInicio')?.hasError('required')">La fecha de inicio es obligatoria.</small>
+          <small *ngIf="myForm.get('fechaInicio')?.hasError('fechaInicioInvalida')">Debe ser igual o mayor a hoy.</small>
+        </span>
+
+        <span id="2" class="p-float-label m-4">
+          <p-calendar formControlName="fechaFin" inputId="calendar2"></p-calendar>
+          <label for="calendar2">Fecha Fin</label>
+        </span>
+        <span class="text-danger" *ngIf="myForm.get('fechaFin')?.invalid && myForm.get('fechaFin')?.touched">
+          <small *ngIf="myForm.get('fechaFin')?.hasError('required')">La fecha de fin es obligatoria.</small>
+        </span>
+
+        <span class="text-danger" *ngIf="myForm.hasError('fechaOrdenInvalida')">
+          <small>La fecha de inicio debe ser menor que la fecha de fin.</small>
+        </span>
+        <span class="text-danger" *ngIf="myForm.hasError('diferenciaExcedeUnMes')">
+          <small>La promoción no puede durar más de un mes.</small>
+        </span>
+      </div>
+
+      <p-divider layout="vertical"></p-divider>
+
+      <!-- Columna 2 -->
+      <div class="col d-flex flex-column align-items-center justify-content-center">
+        <span id="3" class="p-float-label p-input-icon-right m-4 mt-6">
+          <input formControlName="dctoPorcentaje" type="text" id="righticon" pInputText [(ngModel)]="porcentajeDescuentoTotalPromo" readonly />
+          <label for="righticon">Descuento</label>
+          <i class="pi pi-percentage"></i>
+        </span>
+        <span class="text-danger" *ngIf="myForm.get('dctoPorcentaje')?.invalid && myForm.get('dctoPorcentaje')?.touched">
+          <small *ngIf="myForm.get('dctoPorcentaje')?.hasError('required')">El descuento es obligatorio.</small>
+          <small *ngIf="myForm.get('dctoPorcentaje')?.hasError('min')">El valor no puede ser menor a 0.</small>
+          <small *ngIf="myForm.get('dctoPorcentaje')?.hasError('max')">El descuento no puede ser mayor a 100.</small>
+        </span>
+
+        <span id="4" class="p-float-label p-input-icon-left m-4">
+          <input type="text" id="lefticon" [(ngModel)]="descuentoTotalPromo" readonly [ngModelOptions]="{standalone: true}" />
+          <label for="lefticon">Nuevo Precio en Soles</label>
+        </span>
+      </div>
+
+      <p-divider layout="vertical"></p-divider>
+
+      <!-- Columna 3 -->
+      <div class="col d-flex flex-column align-items-center justify-content-center">
+        <span id="5" class="p-float-label m-4 mt-6">
+          <textarea formControlName="descripcion" inputId="textarea" rows="3" cols="30" pInputTextarea></textarea>
+          <label for="textarea">Descripción</label>
+        </span>
+        <span class="text-danger" *ngIf="myForm.get('descripcion')?.invalid && myForm.get('descripcion')?.touched">
+          <small *ngIf="myForm.get('descripcion')?.hasError('required')">La descripción es obligatoria.</small>
+          <small *ngIf="myForm.get('descripcion')?.hasError('minlength')">Debe tener al menos 5 caracteres.</small>
+          <small *ngIf="myForm.get('descripcion')?.hasError('pattern')">Solo se permiten letras y números.</small>
+        </span>
+
+        <!-- Campo Foto -->
+        <div class="col-12 mt-3">
+          <div class="form-group">
+            <label for="categoria-foto">Foto</label>
+            <img [src]="imageUrl" class="rounded img-fluid card-img-top" *ngIf="imageUrl" />
+            <input type="file" class="form-control" id="categoria-foto" (change)="onFileSelected($event)" />
+
+            <!-- Mostrar mensaje de error si existe -->
+            <div *ngIf="errorMessage" class="text-danger mt-2">
+              <i class="pi pi-info-circle"></i> {{ errorMessage }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+
+
+
+
+
+</div>
+<button [disabled]="myForm.invalid" pButton  label="Crear" icon="pi pi-check" (click)="crear()"></button>

@@ -1,0 +1,27 @@
+@use '../../../../../styles.scss' as *;
+
+
+ ::ng-deep  .p-element{
+  text-decoration: none !important;
+}
+
+::ng-deep  .p-dataview-header{
+  background-color: var(--super-color);
+  border: 4px solid var(--primary-color) ;
+}
+
+::ng-deep  .surface-border {
+  border-color: var(--primary-color)  !important;
+  border: 10px solid var(--super-color) !important;
+}
+
+
+::ng-deep  .p-element.p-ripple.p-tabview-nav-link  :hover {
+  background-color:var(--super-color) !important;
+
+}
+
+::ng-deep  .p-tabview .p-tabview-nav li .p-tabview-nav-link {
+  /* border-color: transparent transparent #e300c5 transparent !important; */
+}
+

@@ -1,0 +1,58 @@
+<div class="flex flex-column align-items-center justify-content-center">
+  <div class="w-full surface-card">
+    <div class="text-center mb-2">
+      <div class="text-900 text-3xl font-medium mb-3">Bienvenido</div>
+      <span class="text-600 font-medium">Logueate para continuar</span>
+    </div>
+
+    <form [formGroup]="loginForm">
+      <label for="email" class="block text-900 text-xl font-medium">Email</label>
+      <input formControlName="email" type="text" placeholder="Email address" pInputText class="w-full md:w-30rem" style="padding:1rem">
+
+      <div class="error-container" *ngIf="loginForm.get('email')?.invalid && (loginForm.get('email')?.touched || loginForm.get('email')?.dirty)">
+        <span class="text-red-600 mr-2">
+            <i class="pi pi-info-circle"></i>
+        </span>
+        <span *ngIf="loginForm.get('email')?.errors?.['required']">El email es obligatorio.</span>
+        <span *ngIf="loginForm.get('email')?.errors?.['email']">El formato del email es incorrecto.</span>
+      </div>
+
+      <label for="password" class="block text-900 font-medium text-xl mb-2 mt-4">Contraseña</label>
+      <p-password formControlName="password" placeholder="Password" [toggleMask]="true"  inputStyleClass="w-full p-3 md:w-30rem"></p-password>
+
+      <div  class="error-container mb-5" *ngIf="loginForm.get('password')?.invalid && (loginForm.get('password')?.touched || loginForm.get('password')?.dirty)">
+        <span *ngIf="loginForm.get('password')?.errors?.['required']"> <i class="pi pi-info-circle"></i>La contraseña es obligatoria.</span>
+        <br>
+        <span *ngIf="loginForm.get('password')?.errors?.['minlength']"><i class="pi pi-info-circle"></i>La contraseña debe tener al menos 8 caracteres.</span>
+        <br>
+        <span *ngIf="loginForm.get('password')?.errors?.['maxlength']"><i class="pi pi-info-circle"></i>La contraseña no puede tener más de 100 caracteres.</span>
+        <br>
+        <span *ngIf="loginForm.get('password')?.errors?.['passwordStrength']"><i class="pi pi-info-circle"></i>La contraseña debe incluir al menos una letra mayúscula, una letra minúscula, un número y un carácter especial.</span>
+      </div>
+
+      <div class="flex align-items-center justify-content-between mb-5 gap-5">
+        <div class="flex align-items-center">
+            <p-checkbox id="rememberme1" [binary]="true" styleClass="mr-2"></p-checkbox>
+            <label for="rememberme1">Recordar</label>
+        </div>
+        <a (click)="forgotPwd()" class="font-medium no-underline ml-2 text-right cursor-pointer">¿Olvidaste tu contraseña?</a>
+      </div>
+
+      <button pButton pRipple label="Ingresar" (click)="logearse()" class="w-full text-xl" [disabled]="loginForm.invalid"></button>
+    </form>
+
+    <div class="row">
+      <div class="col-12">
+        <hr class="mt-4 mb-3 border-secondary">
+        <div class="d-flex flex-column flex-md-row justify-content-md-end gap-2 gap-md-4">
+          <p>¿No Tienes una cuenta?
+            <a (click)="register()" class="cursor-pointer link-secondary text-decoration-none">Crear Cuenta</a>
+          </p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+

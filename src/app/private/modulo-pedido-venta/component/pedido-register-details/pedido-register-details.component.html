@@ -1,0 +1,139 @@
+
+<div class="container">
+  <div class="row mt-3">
+
+    <app-cli-cliente-register></app-cli-cliente-register>
+
+    <hr>
+
+    <div class="col-md-4" id="FormProducts">
+      <div class="card">
+        <div class="card-header">
+          <h2>Producto</h2>
+        </div>
+
+        <div class="card-body">
+          <div class="container">
+            <div class="mb-3 position-relative">
+              <input
+  type="text"
+  class="form-control"
+  (focus)="showList = true"
+  (input)="onSearch($event)"
+  (blur)="hideList()"
+  placeholder="Buscar por nombre"
+  [value]="searchTerm"
+/>
+
+
+              <ul
+                *ngIf="showList && filteredproductos.length > 0"
+                class="list-group mt-2 position-absolute w-100 z-index-3"
+              >
+                <li
+                  class="list-group-item list-group-item-action"
+                  *ngFor="let producto of filteredproductos"
+                  (mousedown)="selectproducto(producto)"
+                >
+                  {{ producto.nombre }}
+                </li>
+              </ul>
+            </div>
+
+            <!-- Rest of your form elements remain unchanged -->
+            <form>
+              <fieldset disabled>
+                <div class="mb-3">
+                  <label for="nombre" class="form-label">Nombre:</label>
+                  <input type="text" id="nombre" class="form-control" [value]="selectedproducto?.nombre" />
+                </div>
+
+                <div class="mb-3">
+                  <label for="categoria" class="form-label">Categoria:</label>
+                  <input type="text" id="categoria" class="form-control" [value]="selectedproducto?.categoriaNombre" />
+                </div>
+
+                <div class="mb-3">
+                  <label for="precio" class="form-label">Precio:</label>
+                  <input type="number" id="precio" class="form-control" [value]="selectedproducto?.precio" disabled />
+                </div>
+              </fieldset>
+
+              <div class="mb-3">
+                <label for="cantidad" class="form-label">Cantidad:</label>
+                <input type="number" id="cantidad" class="form-control" [(ngModel)]="cantidad" name="cantidad" />
+              </div>
+
+              <div class="mb-3">
+                <label for="total" class="form-label">Total:</label>
+                <input type="text" id="total" class="form-control" [value]="calcularTotal()" readonly />
+              </div>
+
+              <button type="submit" (click)="agregarALista()" class="btn btn-primary">Agregar</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- FORM DETALLES -->
+    <div class="col-md-8" id ="ProductDetail">
+      <div class="card">
+        <div class="card-header">
+            <h2>Lista de productos</h2>
+        </div>
+
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered m-0">
+              <thead>
+                <tr>
+                  <th class="text-center py-3">Nombre</th>
+                  <th class="text-center py-3">Precio</th>
+                  <th class="text-center py-3">Cantidad</th>
+                  <th class="text-center py-3">Total</th>
+                  <th class="text-center py-3">Quitar</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of carrito; let i = index;">
+                  <td class="align-middle">{{ item.nombre }}</td>
+
+                  <td class="text-right align-middle">{{ item.precio }}</td>
+
+                  <td class="align-middle px-1">
+                    <input type="number" class="form-control form-control-sm text-center" style="width: 60px;" [(ngModel)]="item.cantidad">
+                  </td>
+
+                  <td class="text-right align-middle" id="itemTotal{{ i }}">{{ item.total }}</td>
+
+                  <td class="text-center align-middle px-0">
+                    <button class="shop-tooltip close float-none bg-danger" title="Remove" (click)="eliminarDelCarrito(i)">×</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+          </div>
+
+          <div class="d-flex flex-wrap justify-content-between align-items-center pb-4">
+            <div class="d-flex">
+              <div class="text-right mt-4">
+                <label class="text-muted font-weight-normal m-0" id="precioTotal">Precio Total</label>
+                <div class="text-large">{{ calcularPrecioTotal() }}</div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="float-right">
+            <button type="button" (click)="hacerPedido()" class="btn btn-lg btn-primary mt-2">hacerPedido</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>

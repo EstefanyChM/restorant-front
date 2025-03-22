@@ -1,0 +1,95 @@
+    <p>Servicio</p>
+
+      <!-- Radio Buttons para seleccionar el tipo de entrega -->
+      <div class="d-flex align-items-center mb-3">
+        <p-radioButton  class="m-4"
+          name="deliveryType"
+          value="delivery"
+          label="Delivery"
+          [(ngModel)]="selectedServiceType"
+          (onClick)="selectedServiceType = 'delivery'">
+        </p-radioButton>
+        <p-radioButton
+          name="deliveryType"
+          value="pickup"
+          label="Recojo en tienda"
+          [(ngModel)]="selectedServiceType"
+          (onClick)="selectedServiceType = 'pickup'">
+        </p-radioButton>
+      </div>
+
+      <!-- Formulario para Delivery -->
+      <div *ngIf="selectedServiceType === 'delivery'">
+        <div class="container">
+          <!-- Campo de Dirección -->
+          <div class="mb-3">
+            <label for="direccion" class="form-label fw-bold">Ingresa tu dirección</label>
+            <div class="input-group">
+              <input type="text"
+                     pInputText
+                     id="direccion"
+                     placeholder="Ingresa tu dirección"
+                     class="form-control"
+                     [(ngModel)]="serDeliveryForm.controls['address'].value"
+                     (ngModelChange)="serDeliveryForm.controls['address'].setValue($event)"
+                     required />
+              <span class="input-group-text">
+                <i class="pi pi-map-marker"></i>
+              </span>
+            </div>
+            <!-- Mensaje de error para dirección -->
+            <div *ngIf="serDeliveryForm.get('address')?.invalid && serDeliveryForm.get('address')?. touched" class="text-danger">
+              La dirección es obligatoria y debe tener al menos 5 caracteres.
+            </div>
+          </div>
+
+          <!-- Campo de Referencia -->
+          <div class="mb-3">
+            <label for="referencia" class="form-label fw-bold">Ingresa una referencia</label>
+            <input type="text"
+                   pInputText
+                   id="referencia"
+                   placeholder="Ingresar referencia"
+                   class="form-control"
+                   [(ngModel)]="serDeliveryForm.controls['reference'].value"
+                   (ngModelChange)="serDeliveryForm.controls['reference'].setValue($event)" />
+            <!-- Mensaje de error para referencia -->
+            <div *ngIf="serDeliveryForm.get('reference')?.invalid && serDeliveryForm.get('reference')?.       touched" class="text-danger">
+              Si ingresas una referencia, debe tener al menos 3 caracteres.
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+
+<!-- Formulario para Recojo en Tienda -->
+<div *ngIf="selectedServiceType === 'pickup'">
+<div class="container">
+  <!-- Selección de Tienda -->
+  <div class="mb-3">
+    <label for="tienda" class="form-label fw-bold">Selecciona una tienda:</label>
+    <br>
+    <p-dropdown [options]="tiendasOptions" placeholder="Selecciona una tienda"
+                inputId="tienda" class="w-100"
+                [(ngModel)]="selectedStore" required>
+    </p-dropdown>
+    <div *ngIf="!selectedStore && selectedServiceType === 'pickup'" class="text-danger">
+      Debes seleccionar una tienda.
+    </div>
+  </div>
+
+  <!-- Selección de Horario -->
+  <div class="mb-3">
+    <label for="horario" class="form-label fw-bold">Selecciona un horario:</label>
+    <br>
+    <p-calendar [(ngModel)]="pickupTime" [iconDisplay]="'input'" [showIcon]="true"
+                [timeOnly]="true" hourFormat="12" inputId="templatedisplay" required>
+    </p-calendar>
+    <div *ngIf="!pickupTime && selectedServiceType === 'pickup'" class="text-danger">
+      Debes seleccionar un horario.
+    </div>
+  </div>
+</div>
+</div>

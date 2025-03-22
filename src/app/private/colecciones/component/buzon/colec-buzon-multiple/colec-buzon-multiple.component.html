@@ -1,0 +1,58 @@
+<div class="container">
+  <form [formGroup]="form">
+      <table class="table table-bordered table-striped">
+          <thead>
+              <tr>
+                  <th>#</th>
+                  <th>ID</th>
+                  <th>Código</th>
+                  <th>Nombre</th>
+                  <th>Estado</th>
+                  <th>
+                      <button (click)="addBuzon()" class="btn btn-primary btn-sm">
+                          <i class="fas fa-plus"></i>
+                      </button>
+                  </th>
+              </tr>
+          </thead>
+          <tbody>
+              <ng-container formArrayName="buzones">
+                  <ng-container *ngFor="let buzon of buzonesArrayForm.controls; let i = index">
+                      <tr [formGroupName]="i">
+                          <td>{{ i + 1 }}</td>
+                          <td>
+                              <input formControlName="id" class="form-control" type="text">
+                          </td>
+                          <td>
+                              <input formControlName="codigo" class="form-control" type="text">
+                          </td>
+                          <td>
+                              <input formControlName="nombre" class="form-control" type="text">
+                          </td>
+                          <td>
+                              <select formControlName="idEstado" class="form-select">
+                                  <option value="1">Activo</option>
+                                  <option value="0">Inactivo</option>
+                              </select>
+                          </td>
+                          <td>
+                              <button (click)="removeBuzon(i)" class="btn btn-danger btn-sm">
+                                  <i class="fas fa-trash"></i>
+                              </button>
+                          </td>
+                      </tr>
+                  </ng-container>
+              </ng-container>
+          </tbody>
+          <tfoot>
+              <tr>
+                  <td colspan="6">
+                      <button [disabled]="form.invalid" (click)="save()" class="btn btn-primary btn-sm"> Guardar
+                          <i class="fas fa-save"></i>
+                      </button>
+                  </td>
+              </tr>
+          </tfoot>
+      </table>
+  </form>
+</div>

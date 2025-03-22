@@ -1,0 +1,142 @@
+<div class="grid mt-4">
+  <div class="col-12">
+    <div class="card p-4">
+      <h3 class="py-4">Ventas</h3>
+
+      <!-- Botón Limpiar -->
+      <div class="flex align-items-center mx-2">
+        <button pButton label="Limpiar" class="p-button-outlined mb-2" icon="pi pi-filter-slash" (click)="borrarFiltros()"></button>
+      </div>
+
+      <!-- Tabla de ventas -->
+      <p-table #dt1 [value]="ventas" sortField="id, fechaVenta" dataKey="id" [rows]="itemsPerPage" [rowHover]="true"
+              styleClass="p-datatable-gridlines" [paginator]="false" responsiveLayout="scroll">
+
+        <!-- Encabezado de la tabla -->
+        <ng-template pTemplate="header">
+          <tr>
+            <th>#</th>
+            <th pSortableColumn="id">
+              Id <p-sortIcon field="id" />
+            </th>
+            <th pSortableColumn="fechaVenta">
+              Fecha Venta <p-sortIcon field="fechaVenta" />
+            </th>
+
+            <th>Pedido</th>
+            <th>Comprobante</th>
+            <th>Método de Pago</th>
+          </tr>
+
+          <!-- Filtros en el encabezado -->
+          <tr>
+            <th></th>
+            <th>
+              <p-columnFilter field="id" matchMode="contains" [showMenu]="false">
+                <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                  <input type="text"  (input)="aplicarFiltro('id', value)" placeholder="d" />
+                </ng-template>
+              </p-columnFilter>
+            </th>
+
+            <th>
+              <p-columnFilter field="fechaVenta" matchMode="equals" [showMenu]="false">
+                <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                  <input type="date" [(ngModel)]="fechaVentaFilter" (input)="aplicarFiltro(fechaVentaFilter, 'fechaVenta')" />
+                </ng-template>
+              </p-columnFilter>
+            </th>
+
+
+
+
+            <th>
+              <p-columnFilter field="idPedido" matchMode="contains" [showMenu]="false">
+                <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                  <input type="text"  (input)="aplicarFiltro('idPedido', value)" placeholder="Pedido" />
+                </ng-template>
+              </p-columnFilter>
+            </th>
+
+            <th>
+              <p-columnFilter field="idComprobante" matchMode="contains" [showMenu]="false">
+                <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                  <input type="text"  (input)="aplicarFiltro('idComprobante', value)" placeholder="Comprobante" />
+                </ng-template>
+              </p-columnFilter>
+            </th>
+
+            <th>
+              <p-columnFilter field="idMetodoPago" matchMode="equals" [showMenu]="false">
+                <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                  <p-dropdown
+                    [ngModel]="value"
+                    [options]="metodoPagoOptions"
+                    (onChange)="aplicarFiltro($event.value, 'idMetodoPago')"
+                    placeholder="Método de Pago"
+                    [showClear]="true">
+                    <ng-template let-option pTemplate="item">
+                      <p-tag [value]="option.label" />
+                    </ng-template>
+                  </p-dropdown>
+                </ng-template>
+              </p-columnFilter>
+            </th>
+          </tr>
+        </ng-template>
+
+        <!-- Cuerpo de la tabla -->
+        <ng-template let-venta let-i="rowIndex" pTemplate="body">
+          <tr>
+            <td>{{ i + 1 }}</td>
+            <td>{{ venta.id }}</td>
+            <td>{{ venta.fechaVenta | date:'dd/MM/yyyy HH:mm' }}</td>
+            <td>{{ venta.idPedido }}</td>
+            <td>{{ venta.idComprobante }}</td>
+            <td>{{ venta.idMetodoPago }}</td>
+          </tr>
+        </ng-template>
+
+        <!-- Mensaje cuando no hay datos -->
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="8">No se encontraron ventas</td>
+          </tr>
+        </ng-template>
+      </p-table>
+
+      <!-- Paginación -->
+      <div class="grid">
+        <div class="col-8">
+          <p-paginator [rows]="itemsPerPage" [totalRecords]="totalItems" [rowsPerPageOptions]="[8, 10, 15, 30, 50, 100]" (onPageChange)="changePage($event)"></p-paginator>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal para mostrar los detalles de la venta -->
+<p-dialog header="Detalles de la Venta" [(visible)]="detallesDialogoVisible" [modal]="true" [style]="{width: '50vw'}" [closable]="true" [dismissableMask]="true">
+  <ng-container *ngIf="ventaSelected">
+    <div class="p-fluid">
+      <div class="field">
+        <label>Id Venta:</label>
+        <span>{{ ventaSelected.id }}</span>
+      </div>
+      <div class="field">
+        <label>Fecha Venta:</label>
+        <span>{{ ventaSelected.fechaVenta | date:'dd/MM/yyyy HH:mm' }}</span>
+      </div>
+
+
+      <div class="field">
+        <label>Comprobante:</label>
+        <span>{{ ventaSelected.idComprobante }}</span>
+      </div>
+      <div class="field">
+        <label>Método de Pago:</label>
+        <span>{{ ventaSelected.idMetodoPago }}</span>
+      </div>
+    </div>
+  </ng-container>
+</p-dialog>

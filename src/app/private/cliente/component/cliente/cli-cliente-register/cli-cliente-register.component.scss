@@ -1,0 +1,7 @@
+/*.swal2-popup {
+  z-index: 3000 !important;
+}*/
+//NG-DEEP PARA QUE SEA SOLO DE ESTE COMPONENTE
+::ng-deep .swal2-container {
+  z-index: 2000 !important;
+}

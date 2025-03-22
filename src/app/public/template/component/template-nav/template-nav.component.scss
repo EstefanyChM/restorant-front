@@ -1,0 +1,5 @@
+::ng-deep .p-badge {
+  position: relative; /* o absolute, dependiendo de tu necesidad */
+  //top: -px; /* Mueve el badge hacia arriba */
+  margin-left: -20px;
+}

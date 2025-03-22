@@ -1,0 +1,56 @@
+<div class="surface-ground px-4 py-8 md:px-6 lg:px-8">
+  <div class="text-900 font-bold text-6xl mb-4 text-center">Mesas</div>
+
+  <div class="grid">
+    <div class="col-12 lg:col-4" *ngFor="let pedidoMesa of pedidosMesasBack">
+      <div
+        class="card shadow-2 p-3 h-full flex flex-column"
+        [ngStyle]="{ 'background-color': pedidoMesa.disponible ? '#C8E6C9' : '#FFCDD2' }"
+      >
+        <div class="text-900 font-medium text-xl mb-2">Id Mesa: {{ pedidoMesa.idMesa }}</div>
+        <div class="text-900 font-medium text-xl mb-2">Número Mesa: {{ pedidoMesa.nroMesa }}</div>
+        <div class="text-900 font-medium text-xl mb-2">Id Pedido:{{ pedidoMesa.idPedido }}</div>
+        <hr class="my-3 mx-0 border-top-1 border-none surface-border" />
+        <div class="flex align-items-center">
+          <span class="ml-2 font-medium text-600">Monto: </span>
+          <span class="font-bold text-2xl text-900"> S./ {{pedidoMesa.total
+            }} </span>
+        </div>
+        <div>
+          <p-button
+              (click)="iniciarOAgregar(pedidoMesa)"
+              [label]="pedidoMesa.disponible ? 'Iniciar Pedido' : 'Agregar Pedido'"
+              [styleClass]="pedidoMesa.disponible ? 'p-button-success m-3 mt-auto' : 'p-button-info m-3 mt-auto'">
+          </p-button>
+
+          <p-button (click)="finalizarPedido(pedidoMesa)" disabled={{pedidoMesa.disponible}} label="Finalizar" styleClass="p-button-danger m-3 mt-auto"></p-button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+<!-- /********************************************************/ -->
+
+
+<p-dialog id="1"
+    header="Detalles de la Mesa"
+    [modal]="true"
+    [(visible)]="visible"
+    [style]="{ width: '80rem' }"
+    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
+    (onHide)="recibirEventoCerrarDialogo()"
+    >
+
+    <app-mesa-mesa-detalles
+        [pedidoMesaSeleccionada]="pedidoMesaSeleccionada"
+        (cerrarModalPedidos)="visible=false"
+        (volverAListarPedidoMeda)="obtenerListaDeMesasPedidosFinalizadas()"
+        >
+    </app-mesa-mesa-detalles>
+</p-dialog>
+
+<!-- (cerrarDialogo)="recibirEventoCerrarDialogo()" -->

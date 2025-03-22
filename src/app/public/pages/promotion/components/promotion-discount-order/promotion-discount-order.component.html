@@ -1,0 +1,69 @@
+<div >
+  <div class="row g-2 align-items-center">
+    <div class="col-md-6">
+      <img [src]="promocion.urlImagen" class="img-fluid rounded-5">
+    </div>
+
+    <div class="col-md-6">
+      <form [formGroup]="orderForm" (ngSubmit)="agregarACarrito(promocion, cantidadInput.value ?? 1)">
+
+        <div class="border p-4 rounded">
+          <h3 class="mb-3 mytc-text">{{ promocion.nombre }}</h3>
+
+          <p class="mysc-text fw-bold h4 mb-8">S./ {{ promocion.total }}</p>
+
+          <p class="text-muted mb-4">{{ promocion.descripcion }}</p>
+
+          <div class="d-flex align-items-center mb-3">
+            <label for="cantidadInput" class="form-label me-2">Cantidad</label>
+            <p-inputNumber
+            #cantidadInput
+              [disabled]="false"
+              [showButtons]="true"
+              buttonLayout="horizontal"
+              inputId="integeronly"
+              spinnerMode="horizontal"
+              inputId="inputnumber"
+              [inputStyle]="{ width: '3rem' }"
+              class="custom-input-number"
+              placeholder="1"
+              [step]="1"
+              decrementButtonClass="p-button-danger"
+              incrementButtonClass="p-button-success"
+              [min]="1"
+              [max]="promocion.stock"
+              (onInput)="updateTotal(cantidadInput.value ?? 1)"
+              >
+              <ng-template pTemplate="incrementbuttonicon">
+                  <span class="pi pi-plus p-button-success"></span>
+              </ng-template>
+              <ng-template pTemplate="decrementbuttonicon">
+                  <span class="pi pi-minus p-button-danger "></span>
+              </ng-template>
+            </p-inputNumber>
+
+
+
+            <div *ngIf="orderForm .get('cantidad')?.invalid && orderForm.get('cantidad')?.touched" class="text-danger mt-2">
+              <i class="pi pi-info-circle"></i>
+              <span *ngIf="orderForm.get('cantidad')?.errors?.['required']">La cantidad es obligatorio.</span>
+              <span *ngIf="orderForm.get('cantidad')?.errors?.['min']">La cantidad debe ser al menos 1.</span>
+              <span id="1" *ngIf="orderForm.get('cantidad')?.errors?.['max']">La cantidad no puede ser mayor a {{promocion.stock}}.</span>
+            </div>
+
+          </div>
+          <h5 class="mt-3">Total: S./ {{ total | number:'1.2-2' }}</h5>
+
+          <p-button
+          type="submit"
+          [disabled]="orderForm.invalid || orderForm.get('cantidad')?.value > promocion.stock"
+            class="mt-3 w-100"
+            label="Agregar al carrito"
+            [raised]="true"
+            icon="pi pi-shopping-cart" >
+          </p-button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

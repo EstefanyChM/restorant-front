@@ -1,0 +1,42 @@
+<div *ngIf="isLoading" class="modal d-flex align-items-center justify-content-center show" tabindex="-1" style="display: block; background-color: rgba(0, 0, 0, 0.5);">
+  <div>
+    <p-progressSpinner ariaLabel="loading"></p-progressSpinner>
+  </div>
+</div>
+
+<!-- Menú Section -->
+<section class="container menu section" *ngIf="!isLoading">
+  <div class="tab-content text-center">
+    <div class="tab-header text-center">
+      <h3>Categorías</h3>
+    </div>
+  </div>
+
+
+  <div class="row">
+    <ng-container *ngFor="let categoria of categoriasBack; let i = index">
+      <div class="col-lg-4 mb-3 mb-lg-0 py-3" [routerLink]="['/menu', categoria.nombre]">
+        <div class="hover hover-2 text-white rounded">
+          <img [src]="categoria.urlImagen" />
+          <div class="hover-overlay"></div>
+          <div class="hover-2-content px-5 py-4">
+            <h3 class="hover-2-title text-uppercase font-weight-bold mb-0 mypc-text">
+              <span class="category mi-color p-2 px-3 rounded-5 border border-3 border-warning">{{ categoria.nombre }}</span>
+            </h3>
+            <p class="hover-2-description text-uppercase mb-0">
+              {{ categoria.descripcion }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</section>
+
+
+<!-- ****************** -->
+
+
+
+
+

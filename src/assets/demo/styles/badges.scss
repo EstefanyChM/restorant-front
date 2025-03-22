@@ -1,0 +1,88 @@
+.producto-badge,
+.categoria-badge,
+.pedido-badge,
+.pedido-service,
+.servicio-badge{
+    //border-radius: var(--border-radius);
+    border-radius: 20px;
+    padding: 0.25em 0.5rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.3px;
+}
+
+/* Categoría Badges */
+.categoria-badge {
+    &.status-disponible {
+        background: #C8E6C9; /* Disponible */
+        color: #256029;
+    }
+
+    &.status-no-disponible {
+        background: #FFCDD2; /* No disponible */
+        color: #C63737;
+    }
+}
+
+.servicio-badge {
+  &.servicio-1 {
+    background: #B3E5FC;  /* Azul claro suave */
+    color: #01579B;       /* Azul más oscuro */
+  }
+
+  &.servicio-2 {
+    background: #FFF59D;  /* Amarillo suave */
+    color: #FBC02D;       /* Amarillo más oscuro */
+  }
+
+  &.servicio-3 {
+    background: #E1BEE7;  /* Lavanda suave */
+    color: #7B1FA2;       /* Morado más oscuro */
+  }
+}
+
+
+
+
+/* Producto Badges */
+.producto-badge {
+    &.status-disponible {
+        background: #C8E6C9; /* Disponible */
+        color: #256029;
+    }
+
+    &.status-no-disponible {
+        background: #FFCDD2; /* No disponible */
+        color: #C63737;
+    }
+}
+
+/* Pedido Badges */
+.pedido-badge {
+  &.status-disponible {
+      background: #C8E6C9; /* Disponible */
+      color: #256029;
+  }
+
+  &.status-no-disponible {
+      background: #FFCDD2; /* No disponible */
+      color: #C63737;
+  }
+}
+
+.p-button-rounded {
+  border-radius: 2rem;
+}
+
+.producto-badge {
+  &.producto-sinStock {
+      background: #fff599; /* Disponible */
+      color: #ff7b00;
+  }
+
+  &.status-no-disponible {
+      background: #FFCDD2; /* No disponible */
+      color: #C63737;
+  }
+}

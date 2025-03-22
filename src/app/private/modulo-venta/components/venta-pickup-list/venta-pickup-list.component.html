@@ -1,0 +1,58 @@
+<div class="px-4 py-8  text-900 font-bold text-6xl mb-4 text-center">Pedidos Recojo en Tienda</div>
+
+
+
+<div class="container mt-3">
+  <div class="row">
+    <div *ngFor="let venta of ventas" class="col-md-4 mb-3">
+      <p-card [header]="'Venta #' + venta.id" [style]="{ width: '100%' }">
+        <p>
+          <b>Cliente:</b> {{ venta.idCliente }} <br />
+          <b>Fecha de Venta:</b> {{ venta.fechaVenta | date: 'short' }} <br />
+          <b>Estado:</b> {{ venta.estado ? 'Completado' : 'Pendiente' }}
+        </p>
+
+        <div class="d-flex justify-content-between">
+          <button
+            pButton
+            label="Detalles"
+            icon="pi pi-info-circle"
+            class="p-button-primary"
+            (click)="abrirDetalles(venta)"
+          ></button>
+
+          <button
+            pButton
+            label="Imprimir Cocina"
+            icon="pi pi-print"
+            class="p-button-secondary"
+            (click)="imprimirDetallesParaCocina(venta)"
+          ></button>
+
+          <button
+            pButton
+            label="Finalizar"
+            icon="pi pi-check-circle"
+            class="p-button-success"
+            (click)="finalizarVenta(venta)"
+          ></button>
+        </div>
+      </p-card>
+    </div>
+  </div>
+
+  <!-- Diálogo de Detalles -->
+  <p-dialog
+    [(visible)]="detallesDialogoVisible"
+    [header]="'Detalles de Venta #' + detallesVenta.id"
+    [style]="{ width: '50vw' }"
+    [modal]="true"
+    [closable]="true"
+  >
+    <ng-container *ngIf="detallesVenta">
+      <p><b>Cliente ID:</b> {{ detallesVenta.idCliente }}</p>
+      <p><b>Pedido ID:</b> {{ detallesVenta.idPedido }}</p>
+      <p><b>Método de Pago:</b> {{ detallesVenta.idMetodoPago }}</p>
+    </ng-container>
+  </p-dialog>
+</div>

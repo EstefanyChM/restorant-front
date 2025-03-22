@@ -1,0 +1,47 @@
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">ID</th>
+      <th scope="col">RAZÓN SOCIAL</th>
+      <th scope="col">RUC</th>
+      <th scope="col">DIRECCIÓN</th>
+      <th scope="col">TELÉFONO</th>
+      <th scope="col">CORREO</th>
+      <th scope="col">LOGO</th>
+      <th scope="col">ABRE</th>
+      <th scope="col">CIERRA</th>
+      <th scope="col">ESTADO</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr *ngFor="let empresa of empresaBack">
+      <th scope="row">1</th>
+      <td>{{empresa.id}}</td>
+      <td>{{empresa.razonSocial}}</td>
+      <td>{{empresa.ruc}}</td>
+      <td>{{empresa.direccion}}</td>
+      <td>{{empresa.telefono}}</td>
+      <td>{{empresa.correo}}</td>
+      <td>
+        <img [src]="empresa.urllogo" alt="logo de la empresa">
+      </td>
+      <td>Abierto o cerrado</td>
+      <td>
+        <button (click)="editarEmpresa(modalEdit, empresa)">
+          <i class="fa-solid fa-pen-to-square"></i>
+        </button>
+      </td>
+
+    </tr>
+  </tbody>
+</table>
+
+
+<ng-template #modalEdit>
+  <app-empresa-register [title]="titleModal" [empresa]="empresaSelected" [accion]="accionModal"
+  (closeModalEmmit)="getCloseModalEmmit($event)" >
+  </app-empresa-register>
+</ng-template>

@@ -1,0 +1,93 @@
+<div class="">
+  <form [formGroup]="myForm" (ngSubmit)="registrarUsuarioSistema()">
+    <div class="p-fluid formgrid grid">
+
+      <!-- Número de Teléfono -->
+      <div class="field col-12">
+        <label for="phoneNumber" class="form-label">Teléfono</label>
+          <p-inputNumber formControlName="phoneNumber" placeholder="Número de teléfono" class="w-full"
+          mode="decimal"
+          inputId="withoutgrouping"
+          [useGrouping]="false" />
+          <div class="text-red-600 mt-1" *ngIf="myForm.get('phoneNumber')?.invalid && (myForm.get('phoneNumber')?.touched || myForm.get('phoneNumber')?.dirty)">
+            <i class="pi pi-info-circle mr-1"></i>
+            <span *ngIf="myForm.get('phoneNumber')?.errors?.['required']">El número de teléfono es obligatorio.</span>
+            <span *ngIf="myForm.get('phoneNumber')?.errors?.['pattern']">
+              El número de celular debe contener exactamente 9 dígitos.
+            </span>
+          </div>
+      </div>
+
+      <!-- Correo Electrónico -->
+      <div class="field col-12">
+        <label for="email" class="form-label">Email</label>
+        <input formControlName="email" type="text" placeholder="Email address" pInputText class="w-full">
+        <div class="text-red-600 mt-1" *ngIf="myForm.get('email')?.invalid && (myForm.get('email')?.touched || myForm.get('email')?.dirty)">
+          <i class="pi pi-info-circle mr-1"></i>
+          <span *ngIf="myForm.get('email')?.errors?.['required']">El email es obligatorio.</span>
+          <span *ngIf="myForm.get('email')?.errors?.['email']">El formato del email es incorrecto.</span>
+        </div>
+      </div>
+
+      <!-- Contraseña -->
+      <div class="field col-12">
+        <label for="password" class="form-label">Contraseña</label>
+          <br>
+          <p-password formControlName="password" placeholder="Contraseña" [toggleMask]="true" ></p-password>
+          <div class="text-red-600 mt-1" *ngIf="myForm.get('password')?.invalid && (myForm.get('password')?.touched || myForm.get('password')?.dirty)">
+            <i class="pi pi-info-circle mr-1"></i>
+            <span *ngIf="myForm.get('password')?.errors?.['required']">La contraseña es obligatoria.</span>
+            <span *ngIf="myForm.get('password')?.errors?.['minlength']">La contraseña debe tener al menos 8 caracteres.</span>
+            <span *ngIf="myForm.get('password')?.errors?.['maxlength']">La contraseña no puede tener más de 100 caracteres.</span>
+            <span *ngIf="myForm.get('password')?.errors?.['passwordStrength']">La contraseña debe incluir una letra mayúscula, una minúscula, un número y un carácter especial.</span>
+          </div>
+      </div>
+
+      <!-- Confirmar Contraseña -->
+      <div class="field col-12">
+        <label for="confirmarPassword" class="form-label">Confirmar Contraseña</label>
+          <br>
+          <p-password formControlName="confirmarPassword" placeholder="Confirmar Contraseña" [toggleMask]="true" ></p-password>
+          <div class="text-red-600 mt-1" *ngIf="myForm.get('confirmarPassword')?.invalid && (myForm.get('confirmarPassword')?.touched || myForm.get('confirmarPassword')?.dirty || myForm.errors?.['mismatch'])">
+            <i class="pi pi-info-circle mr-1"></i>
+            <span *ngIf="myForm.get('confirmarPassword')?.errors?.['required']">La confirmación de la contraseña es obligatoria.</span>
+            <span *ngIf="myForm.errors?.['mismatch']">Las contraseñas no coinciden.</span>
+          </div>
+      </div>
+
+      <!-- Cargo -->
+      <div class="field col-12">
+        <label for="cargo">Cargo</label>
+        <p-dropdown
+          id="cargo"
+          formControlName="cargo"
+          [options]="[
+            { label: 'Administrador', value: 1 },
+            { label: 'Vendedor', value: 2 },
+            { label: 'Mozo', value: 3 },
+            { label: 'Cocina', value: 4 }
+
+
+          ]"
+          placeholder="Seleccione un cargo"
+          class="w-full"
+        ></p-dropdown>
+        <small *ngIf="myForm.get('cargo')?.invalid && myForm.get('cargo')?.touched" class="p-error">
+          Debe seleccionar un cargo.
+        </small>
+      </div>
+
+    </div>
+
+    <!-- Botón de Enviar -->
+    <div class="flex justify-content-end mt-4">
+      <button
+        pButton
+        type="submit"
+        label="Registrar Usuario"
+        class="p-button-primary"
+        [disabled]="myForm.invalid">
+      </button>
+    </div>
+  </form>
+</div>

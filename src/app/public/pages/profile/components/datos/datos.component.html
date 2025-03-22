@@ -1,0 +1,101 @@
+<div class="container bootstrap snippet">
+  <div class="row">
+      <div class="col-sm-10">
+          <h1>User name</h1>
+      </div>
+  </div>
+  <div class="row">
+      <div class="col-sm-3">
+          <!--left col-->
+          <div class="text-center">
+              <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" class="avatar img-circle img-thumbnail" alt="avatar">
+              <h6>Cambiar de imagen...</h6>
+              <input type="file" class="text-center center-block file-upload">
+          </div>
+          <hr><br>
+
+          <ul class="list-group">
+            <li class="list-group-item text-muted">Actividad<i class="fa fa-dashboard fa-1x"></i></li>
+            <li class="list-group-item text-right"><span class="pull-left"><strong>Cantidad de pedidos</strong></span> 125</li>
+            <li class="list-group-item text-right"><span class="pull-left"><strong>Más comprados</strong></span> 13</li>
+          </ul>
+      </div><!--/col-3-->
+
+      <div class="col-sm-9">
+          <div class="tab-content">
+              <div class="tab-pane active" id="home">
+                  <form [formGroup]="myFormDatos" (ngSubmit)="addUser()" novalidate>
+                    <div class="field p-float-label my-5">
+                      <input pInputText id="nombre" formControlName="nombre" />
+                      <label for="nombre">Nombre</label>
+                      <small class="p-error block" *ngIf="
+                          myFormDatos.get('nombre')?.invalid && myFormDatos.get('nombre')?.dirty
+                        ">
+                        El Nombre es requerido
+                      </small>
+                    </div>
+
+                    <div class="field p-float-label my-5">
+                      <input pInputText id="apellidos" formControlName="apellidos" />
+                      <label for="apellidos">Apellidos</label>
+                      <small class="p-error block" *ngIf="
+                          myFormDatos.get('apellidos')?.invalid && myFormDatos.get('apellidos')?.dirty
+                        ">
+                        Los Apellidos son requeridos
+                      </small>
+                    </div>
+
+                    <div class="field p-float-label my-5">
+                      <input pInputText id="idPersonaTipoDocumento" formControlName="idPersonaTipoDocumento" />
+                      <label for="idPersonaTipoDocumento">Tipo de Documento</label>
+                      <small class="p-error block" *ngIf="
+                          myFormDatos.get('idPersonaTipoDocumento')?.invalid && myFormDatos.get('idPersonaTipoDocumento')?.dirty
+                        ">
+                        El Tipo de Documento es requerido
+                      </small>
+                    </div>
+
+                    <div class="field p-float-label my-5">
+                      <input pInputText id="numeroDocumento" formControlName="numeroDocumento" />
+                      <label for="numeroDocumento">Número de Documento</label>
+                      <small class="p-error block" *ngIf="
+                          myFormDatos.get('numeroDocumento')?.invalid && myFormDatos.get('numeroDocumento')?.dirty
+                        ">
+                        El Número de Documento es requerido
+                      </small>
+                    </div>
+
+                    <div class="field p-float-label my-5">
+                      <input pInputText id="phoneNumber" formControlName="phoneNumber" />
+                      <label for="phoneNumber">Número de Teléfono</label>
+                      <small class="p-error block" *ngIf="
+                          myFormDatos.get('phoneNumber')?.invalid && myFormDatos.get('phoneNumber')?.dirty
+                        ">
+                        El Número de Teléfono es requerido
+                      </small>
+                    </div>
+
+                    <div class="field p-float-label my-5">
+                      <input pInputText id="email" formControlName="email" />
+                      <label for="email">Correo Electrónico</label>
+                      <small class="p-error block" *ngIf="
+                          myFormDatos.get('email')?.invalid && myFormDatos.get('email')?.dirty
+                        ">
+                        El Correo Electrónico es requerido
+                      </small>
+                    </div>
+
+                    <button pButton type="submit" label="Editar" [disabled]="myFormDatos.invalid"></button>
+                  </form>
+                  <hr>
+              </div><!--/tab-pane-->
+
+              <div class="tab-pane" id="messages">
+              </div><!--/tab-pane-->
+
+              <div class="tab-pane" id="settings">
+              </div><!--/tab-pane-->
+          </div><!--/tab-content-->
+      </div><!--/col-9-->
+  </div><!--/row-->
+</div><!--/container-->

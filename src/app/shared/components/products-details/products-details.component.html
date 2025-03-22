@@ -1,0 +1,126 @@
+<div class="card p-2">
+  <form [formGroup]="myForm">
+    <div class="grid p-fluid mt-2">
+      <div class="field col-6 md:col-3">
+        <span class="p-float-label">
+          <p-dropdown
+            inputId="dropdown"
+            [autoDisplayFirst]="false"
+            [options]="categoriasBack"
+            formControlName="categoria"
+            optionLabel="nombre"
+            (onChange)="seleccionarCategoria()"
+          ></p-dropdown>
+          <label for="dropdown">Categoría</label>
+        </span>
+
+        <div *ngIf="myForm.get('categoria')?.invalid && myForm.get('categoria')?.touched"
+        class="text-danger mt-2">
+          <i class="pi pi-info-circle"></i>
+          <span id="1" *ngIf="myForm.get('categoria')?.errors?.['required']">Primero debe seleccionar la Categoria.</span>
+        </div>
+      </div>
+      <div class="field col-6 md:col-6">
+        <span class="p-float-label">
+          <p-autoComplete
+            inputId="autocomplete"
+            formControlName="producto"
+            [suggestions]="filteredProducts"
+            (completeMethod)="searchProduct($event)"
+            field="nombre"
+            [dropdown]="true"
+            [forceSelection]="true"
+            (onSelect)="seleccionarProducto()"
+          ></p-autoComplete>
+          <label for="autocomplete">Producto</label>
+        </span>
+
+        <div *ngIf="myForm.get('producto')?.invalid && myForm.get('producto')?.touched"
+        class="text-danger mt-2">
+          <i class="pi pi-info-circle"></i>
+          <span *ngIf="myForm.get('producto')?.errors?.['required']">Seleccione el Producto</span>
+        </div>
+      </div>
+
+      <div class="field col-6 md:col-2">
+        <span class="p-float-label">
+          <p-inputNumber
+            [showButtons]="true"
+            buttonLayout="horizontal"
+            inputId="integeronly"
+            spinnerMode="horizontal"
+            inputId="inputnumber"
+            formControlName="cantidad"
+            [min]="1"
+            [max]="[this.productoSeleccionado.stock]"
+            [inputStyle]="{ width: '3rem' }"
+          ></p-inputNumber>
+          <label for="inputnumber" styleClass="ml-2">Cantidad</label>
+        </span>
+
+        <div *ngIf="myForm.get('cantidad')?.invalid && myForm.get('cantidad')?.touched" class="text-danger mt-2">
+          <i class="pi pi-info-circle"></i>
+          <span *ngIf="myForm.get('cantidad')?.errors?.['required']">La cantidad es obligatorio.</span>
+          <span *ngIf="myForm.get('cantidad')?.errors?.['min']">La cantidad debe ser al menos 1.</span>
+          <span id="1" *ngIf="myForm.get('cantidad')?.errors?.['max']">La cantidad no puede ser mayor a {{productoSeleccionado.stock}}.</span>
+        </div>
+      </div>
+
+      <div class="field col-6 md:col-1">
+        <p-button id="2"
+          [disabled]="myForm.invalid || myForm.get('descuento')?.value > productoSeleccionado.stock"
+          icon="pi pi-plus"
+          (onClick)="onAgregar()"
+          styleClass="p-button-rounded p-button-success"
+        />
+      </div>
+    </div>
+  </form>
+
+  <!-- Tabla para mostrar productos seleccionados -->
+  <p-table
+    [value]="listaActual"
+    styleClass="p-datatable-striped"
+    [tableStyle]="{ 'min-width': '50rem' }"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Producto</th>
+        <th>Cantidad</th>
+        <th>Precio Uni.</th>
+        <th>Precio x Cant</th>
+        <th>Descuento</th>
+        <th>Subtotal c/ Dcto</th>
+        <th>Quitar</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-producto let-rowIndex="rowIndex">
+      <tr>
+        <td>{{ producto.nombreProducto }}</td>
+        <td>{{ producto.cantidad }}</td>
+        <td>S./ {{ producto.precioUnitario}}</td>
+        <td>S./ {{ producto.precioXCant}}</td>
+        <td>- {{ (producto.descuento)*100}} %</td>
+        <td>S./ {{(producto.precioXCant)*(1-producto.descuento)}}</td>
+        <td>
+          <button
+            pButton
+            pRipple
+            type="button"
+            icon="pi pi-times"
+            class="p-button-rounded p-button-danger p-button-outlined"
+            (click)="eliminarProducto(rowIndex)"
+          ></button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+
+
+  <div class="d-flex flex-column text-end">
+    <p><strong>TOTAL:</strong> <span>S./ {{ calcularTotal() }}</span></p>
+    <p><strong>TOTAL CON DESCUENTO:</strong> <span>S./ {{ calcularTotalConDescuento() }}</span></p>
+  </div>
+
+
+</div>

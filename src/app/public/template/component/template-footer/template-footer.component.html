@@ -1,0 +1,76 @@
+<!-- Footer -->
+
+<div class="container text-center text-white">
+  <h2 class="mb-4 ">¡No te pierdas nuestras ofertas!</h2>
+  <p class="mb-4">Suscríbete a nuestro boletín para recibir promociones y novedades directamente en tu correo.</p>
+  <form [formGroup]="myFormSubscription" (ngSubmit)="subscribirse()">
+    <div class="input-group mx-auto mb-2" style="max-width: 500px;">
+      <p-inputGroup>
+        <input pInputText
+        formControlName="email"
+        type="email"
+        placeholder="Ingresa tu correo electrónico"
+        [ngClass]="{'is-invalid': myFormSubscription.get('email')?.invalid && (myFormSubscription.get('email')?.touched || isSubmitted)}"
+        />
+        <button [disabled]="myFormSubscription.invalid" class="mytc" type="submit" pButton label="Suscribirme"
+        style="color: white;"></button>
+      </p-inputGroup>
+    </div>
+    <span *ngIf="myFormSubscription.get('email')?.invalid && (myFormSubscription.get('email')?.touched || isSubmitted)" class="text-danger ">
+      <i class="pi pi-info-circle"></i> Por favor, ingresa un correo electrónico válido.
+    </span>
+  </form>
+</div>
+
+
+
+<div class="container mt-6">
+    <div *ngFor="let empresa of datosDeEmpresa" class="row gy-3 mysc-text">
+      <div class="col-lg-3 col-md-6 d-flex">
+        <i class="fa-solid fa-location-dot fa-xl m-3 mr-2" style="color: rgb(255, 100, 50);"></i>
+        <div class="address">
+          <h4>Dirección</h4>
+          <p >{{empresa.direccion}}</p>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6 d-flex">
+        <i class="fa-solid fa-mobile-screen fa-xl m-3 mr-2" style="color: rgb(255, 100, 50);"></i>
+        <div>
+          <h4>Contáctanos</h4>
+          <p>
+            <strong>Teléfono:</strong> <br> <span>{{empresa.telefono}}</span><br>
+            <strong>Email:</strong> <br> <span> {{empresa.correo}} </span><br>
+          </p>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-6 d-flex">
+        <i class="fa-solid fa-clock fa-xl m-3 mr-2" style="color: rgb(255, 100, 50);"></i>
+
+        <div>
+          <h4 class="mb-4">Horarios de Atención</h4>
+          <ul  *ngFor="let horario of empresa.horarios">
+            <li>
+              <p class="list-schedules">
+                <strong>{{horario.diaSemana}}:</strong><span> {{horario.horaApertura}} - {{horario.horaApertura}}</span><br>
+              </p>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-6">
+        <h4>Síguenos</h4>
+        <div class="social-links d-flex">
+          <a href="#" class="text-white me-2"><i class="fab fa-facebook-f" style="color: rgb(255, 100, 50);"></i></a>
+          <a href="#" class="text-white me-2"><i class="fab fa-instagram" style="color: rgb(255, 100, 50);"></i></a>
+          <a href="#" class="text-white"><i class="fab fa-twitter" style="color: rgb(255, 100, 50);"></i></a>
+        </div>
+      </div>
+
+    </div>
+</div>
+
+<div class="container copyright text-center mt-4">
+  <p>© <span>Copyright</span> <strong class="px-1 sitename">Ricco's</strong> <span>Todos los derechos reservados</span></p>
+</div>
