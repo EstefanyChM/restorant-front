@@ -4,6 +4,7 @@ import { AuthUserService } from 'src/app/auth/services/authUser.service';
 import { UsuarioSistemaRegistrar } from '../../models/usuario-sistema-registrar.model';
 import { AutenticacionResponse } from 'src/app/auth/models/autenticacion-response';
 import { alert_success } from 'src/app/shared/functions/general.functions';
+import { PersonalEmpresaResponse } from '../../models/personal-empresa-response.model';
 
 @Component({
   selector: 'app-usuario-sistema-registrar',
@@ -17,6 +18,8 @@ export class UsuarioSistemaRegistrarComponent implements OnInit {
 
   @Output() closeRegisterModal = new EventEmitter<void>();  // Evento para cerrar el modal de login
   @Output() personalRegistrado = new EventEmitter<boolean>();
+  @Input() personalEmpresa: PersonalEmpresaResponse = new PersonalEmpresaResponse;
+
 
 
   ngOnInit() { }
@@ -24,7 +27,6 @@ export class UsuarioSistemaRegistrarComponent implements OnInit {
   constructor(private fb: FormBuilder, private _authUserService: AuthUserService
   ) {
     this.myForm = this.fb.group({
-      phoneNumber: ['', [Validators.required, Validators.pattern('^[0-9]{9}$')]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [
         Validators.required,
@@ -61,14 +63,13 @@ export class UsuarioSistemaRegistrarComponent implements OnInit {
     return null; // Si no hay errores, devolver null para que no interfiera
   }
 
-  @Input() idPersonalEmpresa: number = 0;
 
   registrarUsuarioSistema() {
-    console.log(this.idPersonalEmpresa);
+    console.log(this.personalEmpresa);
 
     const formValue = this.myForm.getRawValue();
     this.registroEnvio = formValue;
-    this.registroEnvio.idPersonalEmpresa=this.idPersonalEmpresa;
+    this.registroEnvio.idPersonalEmpresa=this.personalEmpresa.id;
     this.registroEnvio.celular = formValue['phoneNumber']
     console.log('**************');
     console.log(this.registroEnvio);

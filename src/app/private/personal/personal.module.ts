@@ -17,6 +17,7 @@ import { ClienteModule } from "../cliente/cliente.module";
     PersonalListaComponent,
     PersonalRegisterComponent,
     UsuarioSistemaRegistrarComponent,
+    UsuarioSistemaListComponent
 
   ],
   imports: [

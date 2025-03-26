@@ -135,7 +135,9 @@ export class TemplateSidebarComponent implements OnInit {
           {
             name: "Personal", target: "TargetPersonal", icon: "",
             subMenu: [
-              { name: "Lista de Personal", url: "personal/lista", icon: "" },
+              { name: "Personal de Empresa", url: "personal/lista", icon: "" },
+              { name: "Usuarios del sistema", url: "personal/usuarios-sistema", icon: "" },
+
             ]
           },
           {

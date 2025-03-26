@@ -1,1 +1,128 @@
-<p>usuario-sistema-list works!</p>
+<p-table selectionMode="single"
+    #dt2
+    [value]="personalEmpresa"
+    dataKey="id"
+    [rows]="itemsPerPage"
+    [rowsPerPageOptions]="[8, 10, 25, 50]"
+    [loading]="loading"
+    [paginator]="true"
+    [globalFilterFields]="['nombre', 'apellidos', 'numeroDocumento', 'email', 'direccion']"
+    [tableStyle]="{ 'min-width': '100rem' }"
+>
+
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Nombre</th>
+            <th>Apellidos</th>
+            <th>Número de Documento</th>
+            <th>Teléfono</th>
+            <th>Dirección</th>
+            <th>Email</th>
+            <th>Roles</th>
+            <th>Acciones</th>
+        </tr>
+        <tr>
+            <th>
+                <p-columnFilter
+                    type="text"
+                    field="nombre"
+                    placeholder="Buscar por nombre"
+                    ariaLabel="Filtrar Nombre"
+                    [showClearButton]="false" >
+                </p-columnFilter>
+            </th>
+            <th>
+                <p-columnFilter
+                    type="text"
+                    field="apellidos"
+                    placeholder="Buscar por apellidos"
+                    ariaLabel="Filtrar Apellidos"
+                    [showClearButton]="false" >
+                </p-columnFilter>
+            </th>
+            <th>
+                <p-columnFilter
+                    type="text"
+                    field="numeroDocumento"
+                    placeholder="Buscar por documento"
+                    ariaLabel="Filtrar Documento"
+                    [showClearButton]="false" >
+                </p-columnFilter>
+            </th>
+            <th>
+                <p-columnFilter
+                    type="text"
+                    field="celular"
+                    placeholder="Buscar por teléfono"
+                    ariaLabel="Filtrar Teléfono"
+                    [showClearButton]="false" >
+                </p-columnFilter>
+            </th>
+            <th>
+                <p-columnFilter
+                    type="text"
+                    field="direccion"
+                    placeholder="Buscar por dirección"
+                    ariaLabel="Filtrar Dirección"
+                    [showClearButton]="false" >
+                </p-columnFilter>
+            </th>
+            <th>
+                <p-columnFilter
+                    type="text"
+                    field="email"
+                    placeholder="Buscar por email"
+                    ariaLabel="Filtrar Email"
+                    [showClearButton]="false" >
+                </p-columnFilter>
+            </th>
+            <th>
+              <p-columnFilter field="representative" matchMode="in" [showMenu]="false">
+                <ng-template pTemplate="filter" let-label let-filter="filterCallback">
+                    <p-multiSelect
+                        [ngModel]="label"
+                        [options]="rolOptions"
+                        placeholder="Rol"
+                        (onChange)="filter($event.value)"
+                        optionLabel="label">
+                            <ng-template let-option pTemplate="item">
+                                <div class="inline-block vertical-align-middle">
+                                    <span class="ml-1 mt-1">{{ option.label}}</span>
+                                </div>
+                            </ng-template>
+                    </p-multiSelect>
+                </ng-template>
+            </p-columnFilter>
+            </th>
+            <th></th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-personal>
+        <tr>
+            <td>{{ personal.nombre }}</td>
+            <td>{{ personal.apellidos }}</td>
+            <td>{{ personal.numeroDocumento }}</td>
+            <!-- <td>{{ personal.id }}</td> -->
+            <td>{{ personal.celular }}</td>
+            <td>{{ personal.direccion }}</td>
+            <td>{{ personal.email }}</td>
+            <td>{{ personal.rolesNombre.join(', ') }}</td>
+            <td>
+              <div class="d-flex">
+                <button (click)="editarpersonalEmpresa(personal)" pButton icon="pi pi-pencil" class="mx-2 p-button-rounded p-button-warning"></button>
+                <button (click)="eliminar(personal)" pButton icon="pi pi-times" class="mx-2 p-button-rounded p-button-danger"></button>
+                <button (click)="crearUsuarioSistema(personal)" pButton icon="pi pi-user-plus" class="mx-2 p-button-rounded"></button>
+              </div>
+            </td>
+
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+        <tr>
+            <td colspan="8">No se encontraron registros de personal.</td>
+        </tr>
+    </ng-template>
+</p-table>
+
+
+

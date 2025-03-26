@@ -1,7 +1,7 @@
 
-//export const dominio = "https://localhost:7063/"
+export const dominio = "https://localhost:7063/"
 //export const dominio = "https://192.168.100.115:45456/"
-export const dominio = "https://www.riccos.somee.com/"
+//export const dominio = "https://www.riccos.somee.com/"
 //export const dominio = "https://localhost:44360/"
 
 

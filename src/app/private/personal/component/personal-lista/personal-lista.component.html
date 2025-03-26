@@ -29,7 +29,6 @@
             <th>Teléfono</th>
             <th>Dirección</th>
             <th>Email</th>
-            <th>Roles</th>
             <th>Acciones</th>
         </tr>
         <tr>
@@ -87,24 +86,7 @@
                     [showClearButton]="false" >
                 </p-columnFilter>
             </th>
-            <th>
-              <p-columnFilter field="representative" matchMode="in" [showMenu]="false">
-                <ng-template pTemplate="filter" let-label let-filter="filterCallback">
-                    <p-multiSelect
-                        [ngModel]="label"
-                        [options]="rolOptions"
-                        placeholder="Rol"
-                        (onChange)="filter($event.value)"
-                        optionLabel="label">
-                            <ng-template let-option pTemplate="item">
-                                <div class="inline-block vertical-align-middle">
-                                    <span class="ml-1 mt-1">{{ option.label}}</span>
-                                </div>
-                            </ng-template>
-                    </p-multiSelect>
-                </ng-template>
-            </p-columnFilter>
-            </th>
+            <th></th>
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-personal>
@@ -116,7 +98,6 @@
             <td>{{ personal.celular }}</td>
             <td>{{ personal.direccion }}</td>
             <td>{{ personal.email }}</td>
-            <td>{{ personal.rolesNombre.join(', ') }}</td>
             <td>
               <div class="d-flex">
                 <button (click)="editarpersonalEmpresa(personal)" pButton icon="pi pi-pencil" class="mx-2 p-button-rounded p-button-warning"></button>
@@ -144,7 +125,7 @@
     [closable]="true"
     [style]="{ width: '50vw', height: '70vw' }">
   <app-usuario-sistema-registrar
-      [idPersonalEmpresa]="personal.id"
+      [personalEmpresa]="personal"
       (personalRegistrado)="dialogPersonal()"
       >
   </app-usuario-sistema-registrar>

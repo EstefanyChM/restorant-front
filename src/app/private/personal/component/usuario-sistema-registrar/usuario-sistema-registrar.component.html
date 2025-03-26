@@ -2,22 +2,6 @@
   <form [formGroup]="myForm" (ngSubmit)="registrarUsuarioSistema()">
     <div class="p-fluid formgrid grid">
 
-      <!-- Número de Teléfono -->
-      <div class="field col-12">
-        <label for="phoneNumber" class="form-label">Teléfono</label>
-          <p-inputNumber formControlName="phoneNumber" placeholder="Número de teléfono" class="w-full"
-          mode="decimal"
-          inputId="withoutgrouping"
-          [useGrouping]="false" />
-          <div class="text-red-600 mt-1" *ngIf="myForm.get('phoneNumber')?.invalid && (myForm.get('phoneNumber')?.touched || myForm.get('phoneNumber')?.dirty)">
-            <i class="pi pi-info-circle mr-1"></i>
-            <span *ngIf="myForm.get('phoneNumber')?.errors?.['required']">El número de teléfono es obligatorio.</span>
-            <span *ngIf="myForm.get('phoneNumber')?.errors?.['pattern']">
-              El número de celular debe contener exactamente 9 dígitos.
-            </span>
-          </div>
-      </div>
-
       <!-- Correo Electrónico -->
       <div class="field col-12">
         <label for="email" class="form-label">Email</label>
@@ -66,8 +50,6 @@
             { label: 'Vendedor', value: 2 },
             { label: 'Mozo', value: 3 },
             { label: 'Cocina', value: 4 }
-
-
           ]"
           placeholder="Seleccione un cargo"
           class="w-full"

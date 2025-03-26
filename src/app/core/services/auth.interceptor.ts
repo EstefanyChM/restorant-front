@@ -60,12 +60,12 @@ export class AuthInterceptor implements HttpInterceptor {
 
       /************************************ */
       catchError((err: HttpErrorResponse) => {
-        //console.log('error', err);
+        console.log('error', err);
 
         switch (err.status) {
-          /*case 400:
+          case 400:
             alert_error("ERROR DE BAD REQUEST", "DATOS ENVIADOS INCORRECTOS");
-            break;*/
+            break;
           case 401:
             alert_error("SE SESIÓN HA CADUCADO", "VUELVA A REALIZAR EL LOGIN");
             this.authService.clearUser();  // Limpiar el token en caso de error 401
@@ -74,10 +74,10 @@ export class AuthInterceptor implements HttpInterceptor {
           case 403:
             alert_error("PERMISOS INSUFICIENTES", "Coordine con su administrador");
             break;
-          case 404:
+      case 404:
             //alert_error("RECURSO NO ENCONTRADO", "");
             this.router.navigate(['404']);
-            break;
+            break; 
           case 409:
             switch (err.error.codigo) {
               case '006':
@@ -106,7 +106,7 @@ export class AuthInterceptor implements HttpInterceptor {
           default:
            // alert("ERROR NO CONTROLADO");
 
-            alert_error("ERROR NO CONTROLADO", "Comunìquese con Sistema");
+            alert_error("ERROR NO CONTROLADO", "Comuníquese con Sistema");
             break;
         }
         return throwError(() => err);

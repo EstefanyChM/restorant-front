@@ -10,6 +10,7 @@ import { alert_success } from 'src/app/shared/functions/general.functions';
 import { eliminar_registro } from 'src/app/shared/functions/alerts';
 import { Table } from 'primeng/table';
 import { Representative } from 'src/app/demo/api/customer';
+import { PersonalEmpresaRequest } from '../../models/personal-empresa-request.model';
 
 @Component({
   selector: 'app-personal-lista',
@@ -28,14 +29,6 @@ export class PersonalListaComponent implements OnInit {
   currentPage: number = 1;
   loading: boolean = true;
   personal: PersonalEmpresaResponse = new PersonalEmpresaResponse();
-
-  rolOptions: any[] = [
-    { label: 'Administrador', value:1},
-    { label: 'Vendedor',value:2},
-    { label: 'Mozo' ,value:3},
-    { label: 'Ninguno' ,value:0},
-  ];
-
 
 
   constructor(
@@ -113,7 +106,7 @@ export class PersonalListaComponent implements OnInit {
     table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
   }
 
-  crearUsuarioSistema(personal: any) {
+  crearUsuarioSistema(personal: PersonalEmpresaResponse) {
     this.personal = personal;  // Puedes usar el objeto `personal` para rellenar datos si lo necesitas
     this.displayRegisterUser = true;  // Muestra el modal
   }
@@ -136,9 +129,5 @@ export class PersonalListaComponent implements OnInit {
   this.filtrar();
 
   }
-
-
-  //<input pInputText type="text" #filter (input)="onGlobalFilter(dt1, $event)" placeholder="Search Keyword" class="w-full" />
-/************************************** */
 
 }

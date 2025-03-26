@@ -235,6 +235,7 @@ export class CliClienteRegisterComponent implements OnInit {
     this.clienteEnvio.idPersonaNatural = this.personaResponse?.idPersonaNatural ?? 0;
 
     this.clienteJuridicoEnvio = this.myFormLegalCustomer.getRawValue()
+
     this.clienteJuridicoEnvio.idPersonaJuridica = this.personaResponse?.idPersonaJuridica ?? 0;
     console.log('mando: ',this.clienteEnvio);
 
@@ -259,7 +260,7 @@ export class CliClienteRegisterComponent implements OnInit {
         break;
       default:
         if(this.verOrigen != 'Modulo Venta'){
-          //this.clienteEnvio.idPersonaNatural = this.personaResponse?.idPersonaNatural;
+
           this._personalEmpresaService.create(this.clienteEnvio).subscribe({
             next:()=>{alert_success('Registro exitoso', 'El personal ha sido registrado'), this.personalRegistrado.emit(false);},
             error:()=>{},
