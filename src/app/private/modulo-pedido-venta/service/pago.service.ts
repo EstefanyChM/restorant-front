@@ -11,6 +11,8 @@ export class PagoService {
   constructor(private http: HttpClient) {}
 
   procesarPagoMercadoPago(pedidoRequest: any) {
-    return this.http.post<{ initPoint: string , id:number}>(this.apiUrl, pedidoRequest);
+   return this.http.post<{ initPoint: string , id:number}>(this.apiUrl, pedidoRequest);
+
   }
+
 }

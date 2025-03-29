@@ -8,47 +8,26 @@
     <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
             class="fas fa-bars"></i>
     </button>
+
+
+
     <ul class="d-flex list-unstyled">
-      <li class="me-3" routerLink="/dashboard/modulo-venta/lista-delivery">
-        <i class="fa-solid fa-truck-fast fa-2xl"
-           [ngClass]="{'animate-icon': deliveryBackLength() > 0}"
-           style="color: #ff7300;"
-           pBadge
-           [value]="deliveryBackLength()"
-           pTooltip="Pedidos Delivery"
-           tooltipPosition="bottom"></i>
-      </li>
-      <li class="me-3" routerLink="/dashboard/modulo-venta/lista-pickup">
-        <i class="fa-solid fa-shop fa-2xl"
-           [ngClass]="{'animate-icon': pickUpBackLength() > 0}"
-           style="color: #ff7300;"
-           pBadge
-           [value]="pickUpBackLength()"
-           pTooltip="Pedidos Recojo en Tienda"
-           tooltipPosition="bottom"></i>
-      </li>
-      <li class="me-3" routerLink="/dashboard/modulo-venta/lista-venta">
-        <i class="fa-solid fa-receipt fa-2xl"
-           [ngClass]="{'animate-icon': enTiendaBackLength() > 0}"
-           style="color: #ff7300;"
-           pBadge
-           [value]="enTiendaBackLength()"
-           pTooltip="Pedidos en Tienda"
-           tooltipPosition="bottom"></i>
-      </li>
+        <li *ngFor="let item of menuItems" class="me-3" [routerLink]="item.link">
+          <i class="fa-solid" 
 
-      <li class="me-3" routerLink="/dashboard/modulo-venta/lista-venta">
-        
-        <i class="fa-solid fa-envelope fa-2xl"
-           style="color: #ffed9f;"
-           pBadge
-           [value]="enTiendaBackLength()"
-           pTooltip="Mensajes del Cliente"
-           tooltipPosition="bottom"></i>
-      </li>
-    </ul>
+          [ngClass]="getIconClasses(item)"
 
+          
+             
 
+             [style.color]="item.color"
+             pBadge
+             [value]="item.count()"
+             pTooltip="{{ item.tooltip }}"
+             tooltipPosition="bottom"></i>
+        </li>
+      </ul>
+      
     <!-- Navbar Search-->
     <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
         <div class="input-group">

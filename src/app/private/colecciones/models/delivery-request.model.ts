@@ -1,6 +1,6 @@
 import { PedidoRequest } from "../../pedido/models/pedido-request.model";
 
-export class Delivery {
+export class DeliveryRequest{
   id: number = 0;
   address: string = '';
   reference: string = '';

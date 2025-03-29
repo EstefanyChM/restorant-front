@@ -22,6 +22,11 @@ export class ClienteService extends CrudService<ClienteRequest, ClienteResponse>
 
   createNaturalCustomer(request: ClienteRequest): Observable<ClienteResponse> {
     return this._http.post<ClienteResponse>(`${this.url_service}natural`, request);
+
+    console.log(`${this.url_service}natural`);
+    console.log(request);
+    
+    
   }
 
   createLegalCustomer(request: LegalCustomerRequest): Observable<LegalCustomerResponse> {

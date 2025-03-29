@@ -17,4 +17,8 @@ export class BuzonService  extends CrudService<BuzonRequest, BuzonResponse> {
     super(http, urlConstants.buzon);
     console.log("Service de buzon");
   }
+
+  getMessagesQuantity() {
+    return this.http.get<number>(`${urlConstants.buzon}MessagesCount`);
+  }
 }

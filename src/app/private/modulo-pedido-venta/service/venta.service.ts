@@ -7,10 +7,6 @@ import { CrudService } from 'src/app/core/services/crud.service';
 import { catchError } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
-
-import { GenericFilterRequest } from 'src/app/core/models/generic-filter-request.model';
-import { GenericFilterResponse } from 'src/app/core/models/generic-filter-response.model';
-
 @Injectable({
   providedIn: 'root',
 })
@@ -29,16 +25,8 @@ export class VentaService extends CrudService<VentaRequest, VentaResponse> {
       });
     }
 
-    obtenerVentasDeliveryPagadas(): Observable<VentaResponse[]> {
-      return this.http.get<VentaResponse[]>(`${urlConstants.Venta}delivery-en-proceso`);
-    }
-
-    obtenerVentasRecojoPagadas(): Observable<VentaResponse[]> {
-      console.log('escuch');
-
-      console.log(`${urlConstants.Venta}pickup-en-proceso`);
-
-      return this.http.get<VentaRequest[]>(`${urlConstants.Venta}pickup-en-proceso`);
+    obtenerVentasOnlinePagadas(idService : number): Observable<VentaResponse[]> {
+      return this.http.get<VentaResponse[]>(`${urlConstants.Venta}VentaOnlinePagada/${idService}`);
     }
 
     generateDetallesCocina(idVenta: number): Observable<Blob> {
@@ -47,6 +35,19 @@ export class VentaService extends CrudService<VentaRequest, VentaResponse> {
       });
     }
 
+    onlineSalesCount() {
+      console.log('escuxaaa 1');
 
+      return this.http.get<number[]>(`${urlConstants.Venta}OnlineSalesCount`);
+    }
 
+    storeOrderCount() {
+      console.log('escuxaaa 2');
+      
+      return this.http.get<number>(`${urlConstants.EnTienda}StoreOrderCount`);
+    }
+
+}
+interface PedidosFinalizados {
+      
 }

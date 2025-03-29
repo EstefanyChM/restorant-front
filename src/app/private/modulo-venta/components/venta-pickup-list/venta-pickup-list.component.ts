@@ -9,6 +9,8 @@ import { VentaResponse } from 'src/app/private/modulo-pedido-venta/models/venta-
 import { VentaService } from 'src/app/private/modulo-pedido-venta/service/venta.service';
 import { VentaRequest } from 'src/app/private/modulo-pedido-venta/models/venta-request';
 import { ServicioDePedidosFinalizadosService } from 'src/app/private/shared/services/servicio-de-pedidos-finalizados.service';
+import { Subscription } from 'rxjs';
+import { EventoService } from 'src/app/private/shared/services/evento-service';
 
 @Component({
   selector: 'app-venta-pickup-list',
@@ -27,12 +29,15 @@ export class VentaPickupListComponent  implements OnInit {
 
   categorias: { label: string; value: number }[] = [];
   rangeValues: number[] = [0, 100];
+  private pedidoSub!: Subscription;
 
   constructor(
     private fb: FormBuilder,
     private _ventaService: VentaService,
     private websocketService: WebsocketService,
-        private _servicioDePedidosFinalizadosService:ServicioDePedidosFinalizadosService)
+        private _servicioDePedidosFinalizadosService:ServicioDePedidosFinalizadosService,
+          private eventoService: EventoService)
+      
 
 
    {
@@ -41,14 +46,9 @@ export class VentaPickupListComponent  implements OnInit {
   ngOnInit(): void {
     this.filtrar();
     // Escuchar el evento único desde el servidor de Socket.IO
-
-    this.websocketService.listen('pedido-finalizado-back').subscribe((payload: any) => {
-      console.log('Evento "pedido-finalizado-back" recibido desde el servidor:', payload);
-      console.log('en tienda escucha');
-
-      this.filtrar(); // Actualiza la vista con los datos recibidos
-
-
+    this.pedidoSub = this.eventoService.pedidoFinalizado$.subscribe((payload: any) => {
+      console.log('Pedido finalizado recibido en venta-delivery:', payload);
+      this.filtrar();
     });
 
 
@@ -56,7 +56,7 @@ export class VentaPickupListComponent  implements OnInit {
 
   filtrar() {
 
-    this._ventaService.obtenerVentasRecojoPagadas().subscribe({
+    this._ventaService.obtenerVentasOnlinePagadas(3).subscribe({
       next: (data: VentaResponse[]) => {
         console.log('recibo -->>', data);
         this._servicioDePedidosFinalizadosService.updatePickupBackBackLength(data.length);

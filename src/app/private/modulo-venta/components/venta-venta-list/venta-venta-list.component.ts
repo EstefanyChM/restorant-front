@@ -12,6 +12,8 @@ import { VentaResponse } from 'src/app/private/modulo-pedido-venta/models/venta-
 import { WebsocketService } from 'src/app/shared/services/websocket.service';
 import { alert_success } from 'src/app/shared/functions/general.functions';
 import { ServicioDePedidosFinalizadosService } from 'src/app/private/shared/services/servicio-de-pedidos-finalizados.service';
+import { EventoService } from 'src/app/private/shared/services/evento-service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-venta-venta-list',
@@ -36,21 +38,30 @@ export class VentaVentaListComponent implements OnInit {
   pedidoYaHecho: PedidoResponse = new PedidoResponse();
 
 
+  private pedidoSub!: Subscription;
 
   constructor(
     private _enTiendaService: EnTiendaService,
     private _ventaService: VentaService,
     private websocketService : WebsocketService,
-    private _servicioDePedidosFinalizadosService:ServicioDePedidosFinalizadosService)
+    private _servicioDePedidosFinalizadosService:ServicioDePedidosFinalizadosService,
+  private eventoService: EventoService)
      { }
 
   ngOnInit(): void {
     this.obtenerEnTiendaFinalizada();
 
-    this.websocketService.listen('recibir-pedido').subscribe((payload: any) => {
+    /*this.websocketService.listen('recibir-pedido').subscribe((payload: any) => {
       //console.log('Notificación recibida:', payload);
       //alert('recibo: ' + JSON.stringify(payload, null, 2)); // Mostrar el objeto completo como JSON
       this.obtenerEnTiendaFinalizada();
+
+    });*/
+    
+    this.pedidoSub = this.eventoService.pedidoFinalizado$.subscribe((payload: any) => {
+      console.log('Pedido finalizado recibido en venta-venta-list:', payload);
+      this.obtenerEnTiendaFinalizada();
+
     });
 
   }

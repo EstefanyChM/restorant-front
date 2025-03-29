@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LegalCustomerRequest } from 'src/app/private/cliente/models/legal-customer-request';
 import { ClienteService } from 'src/app/private/cliente/service/cliente.service';
-import { Delivery } from 'src/app/private/colecciones/models/delivery.model';
+import { DeliveryResponse } from 'src/app/private/colecciones/models/delivery-response.model';
 import { Pickup } from 'src/app/private/colecciones/models/pickup.model';
 import { productoForm } from 'src/app/private/menu/models/producto-form.model';
 import { DetallePedidoRequest } from 'src/app/private/pedido/models/detalle-pedido.model';
@@ -141,7 +141,7 @@ export class CartCheckoutPaymentComponent implements OnInit {
 
   boletaEnvio: ClienteRequest = new ClienteRequest();
   facturaEnvio: LegalCustomerRequest = new LegalCustomerRequest();
-  deliveryEnvio: Delivery = new Delivery();
+  deliveryEnvio: DeliveryResponse = new DeliveryResponse();
   pickupEnvio: Pickup = new Pickup();
   pedidoEnvio: PedidoRequest = new PedidoRequest();
 
@@ -204,7 +204,7 @@ console.log('la venta es: ', this.ventaOnlineEnvio);
 
           const redirectUrl = response.initPoint; // Solo necesitas la URL de redirección
           window.open(redirectUrl, '_blank'); // Abre la URL en una nueva pestaña
-          this.router.navigate(['/']);
+          //this.router.navigate(['/']);
 
           console.log(response);
 
@@ -257,7 +257,7 @@ console.log('la venta es: ', this.ventaOnlineEnvio);
               resolve(this.idClienteBack); // Retorna el idClienteBack al completarse la respuesta
             },
             error: () => {
-              alert("Ocurrio un error");
+              alert("Ocurrio un error en case factura de cart cheaout");
               reject("Error al crear cliente jurídico");
             },
             complete: () => {
@@ -285,10 +285,10 @@ console.log('la venta es: ', this.ventaOnlineEnvio);
         console.log('servicio del: ',this.deliveryEnvio);
 
         this._deliveryService.create(this.deliveryEnvio).subscribe({
-          next: (data: Delivery) => {
+          next: (data: DeliveryResponse) => {
           },
           error: () => {
-            alert("Ocurrio un error");
+            alert("Ocurrio un error en delivery");
           },
           complete: () => { }
         });

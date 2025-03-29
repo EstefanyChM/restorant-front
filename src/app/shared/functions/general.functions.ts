@@ -56,5 +56,23 @@ export function login_error() {
   });
 }
 
+export function message_notification(){
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'bottom-end',
+        iconColor: 'white',
+        customClass: { popup: 'colored-toast' },
+        showConfirmButton: false,
+        showCloseButton: true,
+      });
+    
+      Toast.fire({
+        background: '#3fc3ee',
+        html: '<i class="fa-solid fa-envelope fa-2x mr4"></i> <span>Tienes un nuevo mensaje</span>',
+        title: 'Nuevo mensaje',
+      });
+    
+}
+
 /*********************************************** */
 

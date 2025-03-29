@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder} from '@angular/forms';
 import { SelectItem } from 'primeng/api';
+import { Subscription } from 'rxjs';
 import { GenericFilterRequest } from 'src/app/core/models/generic-filter-request.model';
 import { VentaResponse } from 'src/app/private/modulo-pedido-venta/models/venta-response';
 import { VentaService } from 'src/app/private/modulo-pedido-venta/service/venta.service';
 import { DeliveryService } from 'src/app/private/pedido/service/delivery.service';
+import { EventoService } from 'src/app/private/shared/services/evento-service';
 import { ServicioDePedidosFinalizadosService } from 'src/app/private/shared/services/servicio-de-pedidos-finalizados.service';
 import { eliminar_registro } from 'src/app/shared/functions/alerts';
 import { alert_success } from 'src/app/shared/functions/general.functions';
@@ -15,7 +17,7 @@ import { WebsocketService } from 'src/app/shared/services/websocket.service';
   templateUrl: './venta-delivery-list.component.html',
   styleUrl: './venta-delivery-list.component.scss'
 })
-export class VentaDeliveryListComponent implements OnInit {
+export class VentaDeliveryListComponent implements OnInit, OnDestroy {
 
   ventas: VentaResponse[] = [];
   ventaSelected: VentaResponse = new VentaResponse();
@@ -28,13 +30,15 @@ export class VentaDeliveryListComponent implements OnInit {
 
   categorias: { label: string; value: number }[] = [];
   rangeValues: number[] = [0, 100];
+  private pedidoSub!: Subscription;
 
   constructor(
     private fb: FormBuilder,
     private _ventaService: VentaService,
     private websocketService: WebsocketService,
     private _deliveryService: DeliveryService,
-    private _servicioDePedidosFinalizadosService:ServicioDePedidosFinalizadosService)
+    private _servicioDePedidosFinalizadosService:ServicioDePedidosFinalizadosService,
+    private eventoService: EventoService)
 
    {
   }
@@ -43,13 +47,15 @@ export class VentaDeliveryListComponent implements OnInit {
     this.filtrar();
     // Escuchar el evento único desde el servidor de Socket.IO
 
-    this.websocketService.listen('pedido-finalizado-back').subscribe((payload: any) => {
+    /*this.websocketService.listen('pedido-finalizado-back').subscribe((payload: any) => {
       console.log('Evento "pedido-finalizado-back" recibido desde el servidor:', payload);
       console.log('delivery escucha');
 
-      this.filtrar(); // Actualiza la vista con los datos recibidos
-
-
+      this.filtrar()/ // Actualiza la vista con los datos recibidos
+    });*/
+    this.pedidoSub = this.eventoService.pedidoFinalizado$.subscribe((payload: any) => {
+      console.log('Pedido finalizado recibido en venta-delivery:', payload);
+      this.filtrar();
     });
 
 
@@ -59,7 +65,7 @@ export class VentaDeliveryListComponent implements OnInit {
 
   filtrar() {
 
-    this._ventaService.obtenerVentasDeliveryPagadas().subscribe({
+    this._ventaService.obtenerVentasOnlinePagadas(2).subscribe({
       next: (data: VentaResponse[]) => {
         console.log('recibo -->>', data);
         this._servicioDePedidosFinalizadosService.updateDeliveryBackLength(data.length);
@@ -160,7 +166,11 @@ export class VentaDeliveryListComponent implements OnInit {
 
 
 
-
+  ngOnDestroy(): void {
+    if (this.pedidoSub) {
+      this.pedidoSub.unsubscribe();
+    }
+  }
 
 
 }

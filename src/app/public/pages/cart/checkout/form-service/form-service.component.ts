@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Delivery } from 'src/app/private/colecciones/models/delivery.model';
+import { DeliveryResponse } from 'src/app/private/colecciones/models/delivery-response.model';
 import { Pickup } from 'src/app/private/colecciones/models/pickup.model';
 import { PedidoRequest } from 'src/app/private/pedido/models/pedido-request.model';
 import { DeliveryService } from 'src/app/private/pedido/service/delivery.service';
@@ -54,7 +54,7 @@ export class FormServiceComponent {
     });
   }
 
-  deliveryEnvio: Delivery = new Delivery();
+  deliveryEnvio: DeliveryResponse = new DeliveryResponse();
   pickupEnvio: Pickup = new Pickup();
 
   guardarServicio(idPedido: number) {
@@ -70,7 +70,7 @@ export class FormServiceComponent {
         console.log('servicio del: ', this.deliveryEnvio);
 
         this._deliveryService.create(this.deliveryEnvio).subscribe({
-          next: (data: Delivery) => {
+          next: (data: DeliveryResponse) => {
           },
           error: () => {
             alert("Ocurrio un error en pick up");
